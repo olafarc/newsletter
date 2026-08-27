@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "e1787871085084",
+    "createdAt": "2026-08-27T22:51:32.935Z",
+    "layout": "col-6",
+    "showVolanta": true,
+    "volanta": "Notita de prueba",
+    "titulo": "Prueba #1",
+    "showByline": true,
+    "byline": "A ver si arranca",
+    "showCopete": true,
+    "copete": "Esta es una nota de prueba para ver si están todos los tornillos bien puestos y con suerte sólo sobrará uno",
+    "cuerpo": [
+      "Esto es una nota de prueba, o sea: bla, bla bla, sarasa sarasa dijo Kicillof.\nHabría que ponerle algunos ornamentos de dignidad o, en su bondadoso defecto: originalidad, porque va a ser el escrito que inaugure esta plataforma, proyecto al cual le puse verdadera voluntad en esta vida, lo cual ya es mucho decir para los parámetros de interes que manejamos como burbuja global actualmente.\nRealmente pensé que iba a ser mucho más dificl codear un index, una pestaña de administrador exclusiva para un solo usuario con un token único, en la raíz adjuntarle una carpeta de data para todas las entradas y que se vaya escribiendo automáticamente, en un momento casi me rindo y estuve a punto de volcarme a la opción negligente de tener que editar el código fuente de la página cada vez que quisiese publicar una entrada nueva, pero me dormí una siestita (2 horas) y me desperté listo para salir a la ciber-cancha a gambetear ceros y unos como un ciber-campeón.\nDe funcionar esto creo estar listo para abandonar las redes sociales y que quien quiera saber si estoy vivo o, como mucho, motivado, tenga que entrar a mi newsletter y corroborarlo con un poquito de intención de parte, mi regalo quid pro quo por su interés va a ser bajarle algo de data que a tal vez 1 en 10 le pueda llegar a interesar, sino, mucho no me importa.\nLa verdad la idea del news es algo que siempre estuvo presente en el hilo de mi existencia, de chiquito emulaba blogs con Blogspot en los cuales simulaba una especie de revista de información específica del tema que me haya interpelado en la semana, siempre siguiendo ese aura de pendejo friki cool-aid que emanaba desde los pañales: skates, videojuegos, alienígenas, tal vez un día de desasosiego moral me brotaba narciso y me reconfortaba escribiendo sobre mi. Obviamente a éste mi ego Blogspot no lo iba a llenar con sus limitaciones estéticas y organizativas de interfaz. Salto inter-temporal a hoy: que aprendí a codear, Wittgenstein me enseñó que puedo hacer magia con palabras y las palabras mutaron en ceros y unos que todos juntos y ordenados de manera específica se traducen en ¿imágenes?\nBueno, me fui por las ramas, otro día tendré mas tiempo para hablar de Wittgenstein, aliens, la CIA, bicicletas, acuarelas y Message In A Bottle de The Police que está musicalizando esta pequeña jornadita de escritura.\nDedicado a Bri Bri Weasley."
+    ],
+    "showFotos": true,
+    "fotos": [
+      {
+        "url": "assets/entries/e1787871085084/0-chatgpt-image-19-oct-2025--08_11_07-p.m..png",
+        "epigrafe": "El lenguaje es una forma de magia, ya lo dijo o se olvidó de decir Wittgenstein: La filosofía es la lucha contra el embrujo de nuestro entendimiento por medio del lenguaje."
+      }
+    ],
+    "showCita": true,
+    "cita": ""
+  }
+]
