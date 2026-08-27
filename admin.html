@@ -214,6 +214,47 @@
     <div id="entry-list"><p style="font-size:12px;color:#777;">No hay entradas todavía.</p></div>
   </section>
 
+  <!-- ===== LO ÚLTIMO QUE ESCUCHASTE ===== -->
+  <section id="np-section">
+    <h2>4 · Lo último que escuchaste</h2>
+
+    <label for="np-tipo">Tipo</label>
+    <select id="np-tipo">
+      <option value="cancion">Canción</option>
+      <option value="album">Álbum</option>
+    </select>
+
+    <label>Portada</label>
+    <input type="file" id="np-file" accept="image/*">
+    <label>...o URL de imagen (si no subís archivo)</label>
+    <input type="url" id="np-url" placeholder="https://...">
+
+    <label for="np-nombre">Nombre *</label>
+    <input type="text" id="np-nombre" placeholder="Título de la canción o del álbum">
+
+    <div id="np-block-album">
+      <label for="np-album">Álbum</label>
+      <input type="text" id="np-album" placeholder="A qué álbum pertenece">
+    </div>
+
+    <label for="np-interprete">Intérprete *</label>
+    <input type="text" id="np-interprete">
+
+    <label for="np-anio">Año de lanzamiento</label>
+    <input type="text" id="np-anio" placeholder="ej: 2019">
+
+    <div id="np-block-comentario" class="field-toggle hidden-block">
+      <label for="np-comentario">Comentario (opcional)</label>
+      <textarea id="np-comentario" placeholder="Un par de líneas si querés agregar algo"></textarea>
+    </div>
+
+    <div class="row">
+      <button id="np-publish-btn">Actualizar</button>
+      <button type="button" class="secondary" id="np-clear-btn">Limpiar</button>
+    </div>
+    <small class="hint" id="np-current-hint"></small>
+  </section>
+
   <section>
     <div id="status"></div>
   </section>
@@ -229,6 +270,12 @@
   let entriesSha = null;
   let editingId = null;
   let photoRowCount = 0;
+  let npSha = null;
+  function npPath() {
+    const idx = cfg.path.lastIndexOf('/');
+    const dir = idx >= 0 ? cfg.path.slice(0, idx + 1) : '';
+    return dir + 'nowplaying.json';
+  }
 
   // ---------- persistence ----------
   function loadSavedConfig() {
@@ -334,6 +381,14 @@
       renderList();
       $('form-section').classList.add('show');
       $('list-section').classList.add('show');
+
+      const npResult = await ghGet(npPath());
+      npSha = npResult.sha;
+      if (npResult.content) {
+        const np = JSON.parse(b64DecodeUnicode(npResult.content));
+        loadNowPlayingIntoForm(np);
+      }
+
       setStatus(`Conectado a ${cfg.owner}/${cfg.repo}. ${entriesCache.length} entrada(s) publicada(s).`);
     } catch (e) {
       setStatus('No se pudo conectar: ' + e.message, true);
@@ -352,6 +407,15 @@
   wireToggle('t-copete', 'block-copete');
   wireToggle('t-fotos', 'block-fotos');
   wireToggle('t-cita', 'block-cita');
+
+  // ---------- now playing: type toggle ----------
+  function syncNpTipo() {
+    const isAlbum = $('np-tipo').value === 'album';
+    $('np-block-album').style.display = isAlbum ? 'none' : 'block';
+    $('np-block-comentario').classList.toggle('hidden-block', !isAlbum);
+  }
+  $('np-tipo').addEventListener('change', syncNpTipo);
+  syncNpTipo();
 
   // ---------- photo rows ----------
   function addPhotoRow(existing) {
@@ -528,6 +592,81 @@
       setStatus('Error al eliminar: ' + e.message, true);
     }
   }
+
+  function loadNowPlayingIntoForm(np) {
+    if (!np) return;
+    $('np-tipo').value = np.tipo === 'album' ? 'album' : 'cancion';
+    $('np-url').value = np.imagen || '';
+    $('np-nombre').value = np.nombre || '';
+    $('np-album').value = np.album || '';
+    $('np-interprete').value = np.interprete || '';
+    $('np-anio').value = np.anio || '';
+    $('np-comentario').value = np.comentario || '';
+    syncNpTipo();
+    $('np-current-hint').textContent = 'Mostrando actualmente: "' + (np.nombre || '') + '" — ' + (np.interprete || '');
+  }
+
+  function clearNpForm() {
+    $('np-tipo').value = 'cancion';
+    $('np-file').value = '';
+    $('np-url').value = '';
+    $('np-nombre').value = '';
+    $('np-album').value = '';
+    $('np-interprete').value = '';
+    $('np-anio').value = '';
+    $('np-comentario').value = '';
+    syncNpTipo();
+  }
+  $('np-clear-btn').addEventListener('click', clearNpForm);
+
+  $('np-publish-btn').addEventListener('click', async () => {
+    const tipo = $('np-tipo').value;
+    const nombre = $('np-nombre').value.trim();
+    const interprete = $('np-interprete').value.trim();
+    if (!nombre) { setStatus('El nombre es obligatorio.', true); return; }
+    if (!interprete) { setStatus('El intérprete es obligatorio.', true); return; }
+
+    $('np-publish-btn').disabled = true;
+    setStatus('Actualizando...');
+
+    try {
+      let imagen = $('np-url').value.trim();
+      const file = $('np-file').files && $('np-file').files[0];
+      if (file) {
+        const base64 = await fileToBase64(file);
+        const path = `assets/nowplaying/cover-${Date.now()}-${sanitizeFilename(file.name)}`;
+        setStatus('Subiendo portada...');
+        await ghPut(path, base64, null, 'Actualizar portada de lo último escuchado');
+        imagen = path;
+      }
+
+      const np = {
+        tipo,
+        imagen,
+        nombre,
+        interprete,
+        anio: $('np-anio').value.trim(),
+        updatedAt: new Date().toISOString()
+      };
+      if (tipo === 'cancion') {
+        np.album = $('np-album').value.trim();
+      } else {
+        np.comentario = $('np-comentario').value.trim();
+      }
+
+      setStatus('Guardando nowplaying.json...');
+      const content = b64EncodeUnicode(JSON.stringify(np, null, 2));
+      const result = await ghPut(npPath(), content, npSha, `Actualizar lo último escuchado: ${nombre}`);
+      npSha = result.content.sha;
+
+      $('np-current-hint').textContent = 'Mostrando actualmente: "' + nombre + '" — ' + interprete;
+      setStatus('¡Listo! Se actualizó. Puede tardar uno o dos minutos en verse en el sitio.');
+    } catch (e) {
+      setStatus('Error al actualizar: ' + e.message, true);
+    } finally {
+      $('np-publish-btn').disabled = false;
+    }
+  });
 
   // ---------- init ----------
   loadSavedConfig();
