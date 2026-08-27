@@ -85,6 +85,43 @@
   }
   .masthead-bottom .tag{font-weight:700;}
 
+  /* ===== now playing widget ===== */
+  .now-playing-slot{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    max-width:230px;
+    text-align:left;
+  }
+  .now-playing-slot:empty{display:none;}
+  .now-playing-slot .np-cover{
+    width:54px;
+    height:54px;
+    flex-shrink:0;
+    object-fit:cover;
+    border:1px solid var(--ink);
+    filter:grayscale(1) contrast(1.05);
+    transition:filter .4s ease;
+    cursor:pointer;
+  }
+  .now-playing-slot .np-cover:hover,
+  .now-playing-slot .np-cover:active{
+    filter:grayscale(0) contrast(1.05);
+  }
+  .now-playing-slot .np-info{font-size:9.5px;line-height:1.5;}
+  .now-playing-slot .np-label{
+    display:block;
+    color:var(--blue);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:8.5px;
+    margin-bottom:2px;
+  }
+  .now-playing-slot .np-title{display:block;font-weight:700;}
+  .now-playing-slot .np-meta{display:block;color:#555;}
+  .now-playing-slot .np-comment{display:block;color:#777;font-style:italic;margin-top:2px;}
+
   /* ===== GRID ===== */
   .grid{
     position:relative;
@@ -161,7 +198,6 @@
     margin:0 0 12px;
     text-align:justify;
     hyphens:auto;
-    white-space:pre-line;
   }
   p:last-of-type{margin-bottom:0;}
 
@@ -174,15 +210,8 @@
       repeating-linear-gradient(135deg, #6b6b6b 0 2px, #7a7a7a 2px 4px),
       linear-gradient(160deg,#8a8a8a,#3a3a3a);
     filter:grayscale(1) contrast(1.05);
-    transition:filter .4s ease;
     position:relative;
     overflow:hidden;
-    cursor:pointer;
-  }
-  .photo:hover,
-  .photo:active,
-  .photo:focus-visible{
-    filter:grayscale(0) contrast(1.05);
   }
   .photo::after{
     content:attr(data-caption);
@@ -293,6 +322,7 @@
         <strong>Primer número</strong><br>
         Uso personal — no es un producto
       </div>
+      <div class="col now-playing-slot" id="now-playing"></div>
     </div>
 
     <div class="masthead-title">
@@ -400,6 +430,36 @@
       });
     } catch (err) {
       console.error('No se pudieron cargar las entradas publicadas:', err);
+    }
+
+    // ---- lo último que escuchaste ----
+    function renderNowPlaying(np) {
+      if (!np || !np.nombre) return '';
+      const isAlbum = np.tipo === 'album';
+      const label = isAlbum ? 'Álbum del momento' : 'Escuchando ahora';
+      const meta = isAlbum
+        ? `${esc(np.interprete || '')} · ${esc(np.anio || '')}`
+        : `${esc(np.interprete || '')} — ${esc(np.album || '')} · ${esc(np.anio || '')}`;
+      let html = '';
+      if (np.imagen) html += `<img class="np-cover" src="${esc(np.imagen)}" alt="${esc(np.nombre)}">`;
+      html += '<div class="np-info">';
+      html += `<span class="np-label">${label}</span>`;
+      html += `<span class="np-title">${esc(np.nombre)}</span>`;
+      html += `<span class="np-meta">${meta}</span>`;
+      if (isAlbum && np.comentario) html += `<span class="np-comment">${esc(np.comentario)}</span>`;
+      html += '</div>';
+      return html;
+    }
+
+    try {
+      const npEl = document.getElementById('now-playing');
+      const npRes = await fetch('data/nowplaying.json', { cache: 'no-store' });
+      if (npEl && npRes.ok) {
+        const np = await npRes.json();
+        npEl.innerHTML = renderNowPlaying(np);
+      }
+    } catch (err) {
+      console.error('No se pudo cargar "lo último escuchado":', err);
     }
   })();
   </script>
