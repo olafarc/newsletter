@@ -1,1 +1,9 @@
-{}
+{
+  "tipo": "album",
+  "imagen": "assets/nowplaying/cover-1787872641504-radaquien.webp",
+  "nombre": "Quién Va A Cantar",
+  "interprete": "Ruben Rada",
+  "anio": "2000",
+  "updatedAt": "2026-08-27T23:17:32.788Z",
+  "comentario": "Te vamos a extrañar negrito"
+}
