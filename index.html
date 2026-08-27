@@ -161,6 +161,7 @@
     margin:0 0 12px;
     text-align:justify;
     hyphens:auto;
+    white-space:pre-line;
   }
   p:last-of-type{margin-bottom:0;}
 
@@ -173,8 +174,15 @@
       repeating-linear-gradient(135deg, #6b6b6b 0 2px, #7a7a7a 2px 4px),
       linear-gradient(160deg,#8a8a8a,#3a3a3a);
     filter:grayscale(1) contrast(1.05);
+    transition:filter .4s ease;
     position:relative;
     overflow:hidden;
+    cursor:pointer;
+  }
+  .photo:hover,
+  .photo:active,
+  .photo:focus-visible{
+    filter:grayscale(0) contrast(1.05);
   }
   .photo::after{
     content:attr(data-caption);
