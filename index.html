@@ -364,6 +364,9 @@
 
   </div>
 
+  <!-- ================= ENTRADAS PUBLICADAS DESDE EL PANEL ================= -->
+  <div class="grid" id="entradas-nuevas"></div>
+
   <!-- ================= FOOTER ================= -->
   <footer>
     <span class="foot-title">Notas al pie</span>
@@ -375,5 +378,88 @@
 
 </div>
 
+  <!-- ============ CARGA DE ENTRADAS PUBLICADAS DESDE data/entries.json ============ -->
+  <script>
+  (async function () {
+    const container = document.getElementById('entradas-nuevas');
+    if (!container) return;
+
+    function esc(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function photoStyle(url) {
+      if (!url) return '';
+      return `background-image:url('${esc(url)}');background-size:cover;background-position:center;`;
+    }
+
+    function renderEntry(entry, idx) {
+      const layout = entry.layout || 'col-6';
+      const numeralClass = 'n' + ((idx % 5) + 1);
+      const numeralNum = String(idx + 5).padStart(2, '0');
+
+      let html = `<article class="${esc(layout)}" style="min-height:380px;">`;
+      html += `<span class="numeral ${numeralClass}">${numeralNum}</span>`;
+
+      if (entry.showVolanta && entry.volanta) {
+        html += `<div class="eyebrow">${esc(entry.volanta)}</div>`;
+      }
+
+      html += `<h2 class="headline">${esc(entry.titulo)}<span class="dot">.</span></h2>`;
+
+      if (entry.showByline && entry.byline) {
+        html += `<div class="byline">${esc(entry.byline)}</div>`;
+      }
+
+      if (entry.showCopete && entry.copete) {
+        html += `<p style="font-weight:700;">${esc(entry.copete)}</p>`;
+      }
+
+      if (entry.showFotos && Array.isArray(entry.fotos) && entry.fotos.length) {
+        if (entry.fotos.length === 3) {
+          html += '<div class="photo-row">';
+          entry.fotos.forEach(f => {
+            html += `<div class="photo" data-caption="${esc(f.epigrafe || '')}" style="${photoStyle(f.url)}"></div>`;
+          });
+          html += '</div>';
+        } else {
+          entry.fotos.forEach(f => {
+            html += `<div class="photo" data-caption="${esc(f.epigrafe || '')}" style="${photoStyle(f.url)}"></div>`;
+          });
+        }
+      }
+
+      if (Array.isArray(entry.cuerpo)) {
+        entry.cuerpo.forEach(p => {
+          if (p && p.trim()) html += `<p>${esc(p)}</p>`;
+        });
+      }
+
+      if (entry.showCita && entry.cita) {
+        html += `<div class="pull">${esc(entry.cita)}</div>`;
+      }
+
+      html += '</article>';
+      return html;
+    }
+
+    try {
+      const res = await fetch('data/entries.json', { cache: 'no-store' });
+      if (!res.ok) return;
+      const entries = await res.json();
+      entries.forEach((entry, idx) => {
+        container.insertAdjacentHTML('beforeend', renderEntry(entry, idx));
+      });
+    } catch (err) {
+      console.error('No se pudieron cargar las entradas publicadas:', err);
+    }
+  })();
+  </script>
 </body>
 </html>
