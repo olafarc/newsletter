@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "e1787868910478",
+    "createdAt": "2026-08-27T22:15:19.283Z",
+    "layout": "col-6",
+    "showVolanta": true,
+    "volanta": "A esto le digo procrastinar con estilo",
+    "titulo": "PRUEBA #1",
+    "showByline": true,
+    "byline": "Esto es una publicación de prueba",
+    "showCopete": true,
+    "copete": "Me estoy quemando las pestañas para crear una plataforma que me permita publicar directamente desde una interfaz de administrador y no tener que editar el código fuente de la página cada vez que quiero publicar una nueva entrada",
+    "cuerpo": [
+      "Acá va el cuerpo de la entrada, o sea: bla bla bla, sarasa diría Kicillof. Pensé que todo esto iba a ser mas dificil, pero me tiré una siestita (de 2 horas) y entré a la ciber-cancha para gambetear ceros y unos como un campeón. La verdad que GitHub es una herramienta maravillosa y te facilita el trabajo al nivel de que un simio con un teclado como yo puede crear una raíz con un index público, una plataforma de administrasión de uso privado y una carpeta de data online, todo con un token exclusivo. Además de que entendí mas o menos lo que es un token, tarde, pues un niño que usa Roblox lo tiene mas interiorizado que yo y hace más tiempo,\nSi esto llega a funcionar: Chau redes sociales, quien quiera saber si sigo vivo que me revise el newsletter. Gossip Girl dijo la Bri Bri (No quiero averiguar que es una Gossip Girl)"
+    ],
+    "showFotos": true,
+    "fotos": [
+      {
+        "url": "assets/entries/e1787868910478/0-chatgpt-image-19-oct-2025--08_11_07-p.m..png",
+        "epigrafe": ""
+      }
+    ],
+    "showCita": true,
+    "cita": "El lenguaje es una forma de magia, ya lo dijo o se olvidó de decir Wittgenstein: La filosofía es la lucha contra el embrujo de nuestro entendimiento por medio del lenguaje."
+  }
+]
