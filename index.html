@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLAF NEWS — Cuaderno personal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;900&family=Bebas+Neue&display=swap');
+
+  :root{
+    --ink:#111111;
+    --paper:#f7f6f2;
+    --blue:#1c56e8;
+    --blue-dim: rgba(28,86,232,0.14);
+    --rule:#111111;
+    --gray-photo:#5a5a5a;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:#d8d8d2;
+    color:var(--ink);
+    font-family:'Archivo', Helvetica, Arial, sans-serif;
+  }
+
+  .sheet{
+    max-width:1200px;
+    margin:24px auto;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,0.25);
+  }
+
+  /* ===== MASTHEAD ===== */
+  .masthead{
+    padding:22px 36px 14px;
+    border-bottom:4px solid var(--ink);
+  }
+  .masthead-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    font-size:10.5px;
+    line-height:1.5;
+    letter-spacing:.02em;
+    padding-bottom:14px;
+  }
+  .masthead-top .col{max-width:260px;}
+  .masthead-top .col.right{text-align:right;}
+  .masthead-top strong{font-weight:700;}
+
+  .masthead-title{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding-top:10px;
+  }
+  .masthead-title .kicker{
+    font-family:'Bebas Neue', Impact, sans-serif;
+    font-size:15px;
+    letter-spacing:.06em;
+    color:var(--blue);
+    white-space:nowrap;
+  }
+  .masthead-title h1{
+    font-family:'Archivo Black', Arial, sans-serif;
+    font-size:clamp(38px, 7vw, 84px);
+    line-height:.9;
+    margin:0;
+    letter-spacing:-0.01em;
+    flex:1;
+  }
+  .masthead-title h1 span.accent{color:var(--blue);}
+
+  .masthead-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:12px;
+    font-size:10.5px;
+    letter-spacing:.03em;
+  }
+  .masthead-bottom .tag{font-weight:700;}
+
+  /* ===== GRID ===== */
+  .grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:0;
+  }
+  .grid > * {
+    border-right:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    padding:22px 24px;
+    position:relative;
+  }
+  .grid > *:nth-child(2n){ }
+
+  /* big blue numerals as background signature */
+  .numeral{
+    font-family:'Archivo Black', Arial, sans-serif;
+    position:absolute;
+    font-size:340px;
+    line-height:1;
+    color:var(--blue);
+    opacity:.9;
+    z-index:0;
+    user-select:none;
+    pointer-events:none;
+  }
+  .numeral.n1{ left:-40px; bottom:-120px; }
+  .numeral.n2{ right:-60px; top:40%; transform:translateY(-50%); font-size:260px;}
+  .numeral.n3{ left:-30px; bottom:-140px; font-size:300px;}
+  .numeral.n4{ right:-50px; bottom:-130px; font-size:300px;}
+  .numeral.n5{ left:50%; bottom:-160px; transform:translateX(-50%); font-size:320px;}
+
+  article{position:relative; z-index:1;}
+
+  .eyebrow{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--blue);
+    margin-bottom:6px;
+  }
+  h2.headline{
+    font-family:'Archivo Black', Arial, sans-serif;
+    font-size:22px;
+    line-height:1.15;
+    margin:0 0 12px;
+  }
+  h2.headline .dot{color:var(--blue);}
+  .byline{
+    font-size:10px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:#555;
+    margin-bottom:14px;
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    padding:5px 0;
+  }
+  p{
+    font-size:12.5px;
+    line-height:1.72;
+    margin:0 0 12px;
+    text-align:justify;
+    hyphens:auto;
+  }
+  p:last-of-type{margin-bottom:0;}
+
+  /* photo blocks: grayscale placeholder */
+  .photo{
+    aspect-ratio:4/3;
+    width:100%;
+    margin:0 0 14px;
+    background:
+      repeating-linear-gradient(135deg, #6b6b6b 0 2px, #7a7a7a 2px 4px),
+      linear-gradient(160deg,#8a8a8a,#3a3a3a);
+    filter:grayscale(1) contrast(1.05);
+    position:relative;
+    overflow:hidden;
+  }
+  .photo::after{
+    content:attr(data-caption);
+    position:absolute;
+    left:0; right:0; bottom:0;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    font-size:9px;
+    letter-spacing:.04em;
+    padding:5px 8px;
+    font-family:Arial, sans-serif;
+  }
+  .photo-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .photo-row .photo{aspect-ratio:1/1; margin-bottom:0;}
+
+  /* ===== column spans ===== */
+  .col-3{grid-column:span 3;}
+  .col-4{grid-column:span 4;}
+  .col-5{grid-column:span 5;}
+  .col-6{grid-column:span 6;}
+  .col-7{grid-column:span 7;}
+  .col-8{grid-column:span 8;}
+  .col-9{grid-column:span 9;}
+  .col-12{grid-column:span 12; border-right:none;}
+
+  .lede{
+    background:var(--paper);
+  }
+  .lede h2.headline{font-size:26px;}
+
+  /* pull quote box */
+  .pull{
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+    padding:12px 0;
+    font-family:'Archivo Black', Arial, sans-serif;
+    font-size:17px;
+    line-height:1.3;
+    margin:14px 0;
+  }
+  .pull span{color:var(--blue);}
+
+  /* ===== footer strip ===== */
+  footer{
+    background:var(--ink);
+    color:var(--paper);
+    padding:16px 24px;
+    font-size:9.5px;
+    letter-spacing:.02em;
+    line-height:1.9;
+  }
+  footer .row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px 0;
+  }
+  footer .item{
+    white-space:nowrap;
+  }
+  footer .item::after{
+    content:"  ★  ";
+    color:var(--blue);
+  }
+  footer .item:last-child::after{content:"";}
+  footer .foot-title{
+    font-family:'Archivo Black', Arial, sans-serif;
+    color:var(--blue);
+    font-size:11px;
+    letter-spacing:.06em;
+    margin-bottom:8px;
+    display:block;
+  }
+
+  a{color:inherit;}
+
+  /* ===== responsive ===== */
+  @media (max-width:900px){
+    .grid > *{grid-column:span 12 !important; border-right:none;}
+    .numeral{font-size:180px !important;}
+    .masthead-title h1{font-size:44px;}
+    .masthead-top, .masthead-bottom{flex-direction:column; gap:6px;}
+    .masthead-top .col.right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ================= MASTHEAD ================= -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <div class="col">
+        <strong>Escribe:</strong> Olaf<br>
+        <strong>Frecuencia:</strong> cuando hay algo para contar
+      </div>
+      <div class="col right">
+        <strong>Primer número</strong><br>
+        Uso personal — no es un producto
+      </div>
+    </div>
+
+    <div class="masthead-title">
+      <span class="kicker">Cuaderno personal ·</span>
+      <h1>OLAF<span class="accent">NEWS</span></h1>
+    </div>
+
+    <div class="masthead-bottom">
+      <span>Apuntes, procesos e ideas sueltas</span>
+      <span class="tag">Nº 01</span>
+    </div>
+  </div>
+
+  <!-- ================= GRID ================= -->
+  <div class="grid">
+
+    <!-- Lede / intro -->
+    <article class="col-8 lede">
+      <div class="eyebrow">Editorial</div>
+      <h2 class="headline">Empieza el cuaderno<span class="dot">.</span></h2>
+      <div class="byline">Texto · Olaf</div>
+      <p>Este es el primer número. La idea es simple: un lugar para anotar lo que voy haciendo, pensando o probando, sin la obligación de que quede prolijo ni terminado. No es un catálogo ni una vidriera — es más bien un cuaderno en voz alta.</p>
+      <p>Va a tener de todo un poco: procesos a medio hacer, cosas que salieron mal, ideas que todavía no sé si sirven. Prefiero eso a esperar a tener algo "presentable" para escribir.</p>
+      <div class="pull">Anotar <span>en el momento</span>, no después.</div>
+      <p>En este número: el detrás de escena de algo que estuve armando, algunos apuntes técnicos, y lo que tengo pensado para más adelante.</p>
+    </article>
+
+    <article class="col-4" style="display:flex; flex-direction:column; justify-content:flex-end;">
+      <div class="photo" data-caption="Mesa de trabajo — en proceso"></div>
+      <p style="font-size:11px; color:#555;">La mesa rara vez está ordenada mientras algo está en marcha. Ya la voy a mostrar terminada, si es que llega a estarlo.</p>
+    </article>
+
+    <!-- Section 1 -->
+    <article class="col-5" style="min-height:420px;">
+      <span class="numeral n1">01</span>
+      <div class="eyebrow">Detrás de escena</div>
+      <h2 class="headline">Una idea, de punta a punta.</h2>
+      <div class="byline">Nota · Proceso</div>
+      <p>Casi todo arranca de una imagen suelta en la cabeza y una referencia imprecisa: una foto, una medida aproximada, una idea a mitad de armar. De ahí sale el primer modelo, casi siempre incompleto.</p>
+      <p>Después viene la parte que no se ve en las fotos finales: los ajustes, las pruebas de encastre, las piezas que salen bien en la pantalla y mal en la mesa de trabajo. Recién ahí llega la versión que queda.</p>
+    </article>
+
+    <article class="col-3">
+      <div class="photo" data-caption="Prototipo — primera prueba"></div>
+      <div class="photo" data-caption="Ajuste de tolerancias"></div>
+    </article>
+
+    <!-- Section 2 -->
+    <article class="col-4" style="min-height:420px;">
+      <span class="numeral n2">02</span>
+      <div class="eyebrow">Apuntes</div>
+      <h2 class="headline">Calibrar antes de avanzar.</h2>
+      <div class="byline">Nota · Técnica</div>
+      <p>Nivel, temperatura, flujo, retracción: variables chicas que definen si algo sale prolijo o se rompe a mitad de camino. Buena parte del trabajo pasa por acá, antes de que la idea entre en juego.</p>
+      <div class="photo-row">
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+      </div>
+      <p>Voy guardando notas de qué funcionó y qué no, por material y por máquina. Lo que sirve para uno no sirve igual para otro.</p>
+    </article>
+
+    <!-- Section 3 -->
+    <article class="col-8" style="min-height:420px;">
+      <span class="numeral n3">03</span>
+      <div class="eyebrow">Repaso</div>
+      <h2 class="headline">Lo que hice este tiempo.</h2>
+      <div class="byline">Nota · Bitácora</div>
+      <div class="photo-row">
+        <div class="photo" data-caption="Pieza A"></div>
+        <div class="photo" data-caption="Pieza B"></div>
+        <div class="photo" data-caption="Pieza C"></div>
+      </div>
+      <p>Un repaso rápido de lo que estuve armando últimamente: algunas cosas chicas, algún experimento, y proyectos que quedaron a medio camino.</p>
+      <p>Cada una pasó por el mismo circuito: boceto, prueba, ajuste, versión final. Ninguna salió perfecta al primer intento — y eso también es parte de lo que quiero anotar acá.</p>
+    </article>
+
+    <!-- Section 4 -->
+    <article class="col-6" style="min-height:380px;">
+      <span class="numeral n4">04</span>
+      <div class="eyebrow">Próximamente</div>
+      <h2 class="headline">Lo que viene: sumar madera.</h2>
+      <div class="byline">Nota · Novedades</div>
+      <p>Estoy metiéndole mano al trabajo en madera como algo nuevo, en paralelo a lo que ya venía haciendo. La idea es combinar procesos — piezas híbridas, terminaciones mixtas, cosas que antes no se me hubieran ocurrido.</p>
+      <p>Todavía es un proceso en marcha. Va a tener su propio espacio en el próximo número.</p>
+    </article>
+
+    <article class="col-6" style="min-height:380px;">
+      <div class="photo" data-caption="Banco de trabajo — algo nuevo"></div>
+      <p style="font-size:11px; color:#555;">Primeras pruebas, todavía en etapa de prototipo.</p>
+    </article>
+
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <span class="foot-title">Notas al pie</span>
+    <div class="row">
+      <span class="item">Cuaderno personal — sin fines comerciales</span>
+      <span class="item">Próximo número: cuando haya algo para contar</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
