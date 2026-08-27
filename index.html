@@ -108,7 +108,7 @@
     line-height:1;
     color:var(--blue);
     opacity:.9;
-    z-index:0;
+    z-index:-1;
     user-select:none;
     pointer-events:none;
   }
@@ -127,6 +127,11 @@
     text-transform:uppercase;
     color:var(--blue);
     margin-bottom:6px;
+    display:inline-block;
+    background:rgba(247,246,242,0.65);
+    padding:2px 5px;
+    margin-left:-5px;
+    border-radius:2px;
   }
   h2.headline{
     font-family:'Archivo Black', Arial, sans-serif;
@@ -134,7 +139,12 @@
     line-height:1.15;
     margin:0 0 12px;
   }
-  h2.headline .dot{color:var(--blue);}
+  h2.headline .dot{
+    color:var(--blue);
+    background:rgba(247,246,242,0.65);
+    padding:0 3px;
+    border-radius:2px;
+  }
   .byline{
     font-size:10px;
     letter-spacing:.05em;
@@ -210,7 +220,12 @@
     line-height:1.3;
     margin:14px 0;
   }
-  .pull span{color:var(--blue);}
+  .pull span{
+    color:var(--blue);
+    background:rgba(247,246,242,0.65);
+    padding:0 4px;
+    border-radius:2px;
+  }
 
   /* ===== footer strip ===== */
   footer{
@@ -283,87 +298,6 @@
     </div>
   </div>
 
-  <!-- ================= GRID ================= -->
-  <div class="grid">
-
-    <!-- Lede / intro -->
-    <article class="col-8 lede">
-      <div class="eyebrow">Editorial</div>
-      <h2 class="headline">Empieza el cuaderno<span class="dot">.</span></h2>
-      <div class="byline">Texto · Olaf</div>
-      <p>Este es el primer número. La idea es simple: un lugar para anotar lo que voy haciendo, pensando o probando, sin la obligación de que quede prolijo ni terminado. No es un catálogo ni una vidriera — es más bien un cuaderno en voz alta.</p>
-      <p>Va a tener de todo un poco: procesos a medio hacer, cosas que salieron mal, ideas que todavía no sé si sirven. Prefiero eso a esperar a tener algo "presentable" para escribir.</p>
-      <div class="pull">Anotar <span>en el momento</span>, no después.</div>
-      <p>En este número: el detrás de escena de algo que estuve armando, algunos apuntes técnicos, y lo que tengo pensado para más adelante.</p>
-    </article>
-
-    <article class="col-4" style="display:flex; flex-direction:column; justify-content:flex-end;">
-      <div class="photo" data-caption="Mesa de trabajo — en proceso"></div>
-      <p style="font-size:11px; color:#555;">La mesa rara vez está ordenada mientras algo está en marcha. Ya la voy a mostrar terminada, si es que llega a estarlo.</p>
-    </article>
-
-    <!-- Section 1 -->
-    <article class="col-5" style="min-height:420px;">
-      <span class="numeral n1">01</span>
-      <div class="eyebrow">Detrás de escena</div>
-      <h2 class="headline">Una idea, de punta a punta.</h2>
-      <div class="byline">Nota · Proceso</div>
-      <p>Casi todo arranca de una imagen suelta en la cabeza y una referencia imprecisa: una foto, una medida aproximada, una idea a mitad de armar. De ahí sale el primer modelo, casi siempre incompleto.</p>
-      <p>Después viene la parte que no se ve en las fotos finales: los ajustes, las pruebas de encastre, las piezas que salen bien en la pantalla y mal en la mesa de trabajo. Recién ahí llega la versión que queda.</p>
-    </article>
-
-    <article class="col-3">
-      <div class="photo" data-caption="Prototipo — primera prueba"></div>
-      <div class="photo" data-caption="Ajuste de tolerancias"></div>
-    </article>
-
-    <!-- Section 2 -->
-    <article class="col-4" style="min-height:420px;">
-      <span class="numeral n2">02</span>
-      <div class="eyebrow">Apuntes</div>
-      <h2 class="headline">Calibrar antes de avanzar.</h2>
-      <div class="byline">Nota · Técnica</div>
-      <p>Nivel, temperatura, flujo, retracción: variables chicas que definen si algo sale prolijo o se rompe a mitad de camino. Buena parte del trabajo pasa por acá, antes de que la idea entre en juego.</p>
-      <div class="photo-row">
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-      </div>
-      <p>Voy guardando notas de qué funcionó y qué no, por material y por máquina. Lo que sirve para uno no sirve igual para otro.</p>
-    </article>
-
-    <!-- Section 3 -->
-    <article class="col-8" style="min-height:420px;">
-      <span class="numeral n3">03</span>
-      <div class="eyebrow">Repaso</div>
-      <h2 class="headline">Lo que hice este tiempo.</h2>
-      <div class="byline">Nota · Bitácora</div>
-      <div class="photo-row">
-        <div class="photo" data-caption="Pieza A"></div>
-        <div class="photo" data-caption="Pieza B"></div>
-        <div class="photo" data-caption="Pieza C"></div>
-      </div>
-      <p>Un repaso rápido de lo que estuve armando últimamente: algunas cosas chicas, algún experimento, y proyectos que quedaron a medio camino.</p>
-      <p>Cada una pasó por el mismo circuito: boceto, prueba, ajuste, versión final. Ninguna salió perfecta al primer intento — y eso también es parte de lo que quiero anotar acá.</p>
-    </article>
-
-    <!-- Section 4 -->
-    <article class="col-6" style="min-height:380px;">
-      <span class="numeral n4">04</span>
-      <div class="eyebrow">Próximamente</div>
-      <h2 class="headline">Lo que viene: sumar madera.</h2>
-      <div class="byline">Nota · Novedades</div>
-      <p>Estoy metiéndole mano al trabajo en madera como algo nuevo, en paralelo a lo que ya venía haciendo. La idea es combinar procesos — piezas híbridas, terminaciones mixtas, cosas que antes no se me hubieran ocurrido.</p>
-      <p>Todavía es un proceso en marcha. Va a tener su propio espacio en el próximo número.</p>
-    </article>
-
-    <article class="col-6" style="min-height:380px;">
-      <div class="photo" data-caption="Banco de trabajo — algo nuevo"></div>
-      <p style="font-size:11px; color:#555;">Primeras pruebas, todavía en etapa de prototipo.</p>
-    </article>
-
-  </div>
-
   <!-- ================= ENTRADAS PUBLICADAS DESDE EL PANEL ================= -->
   <div class="grid" id="entradas-nuevas"></div>
 
@@ -402,7 +336,7 @@
     function renderEntry(entry, idx) {
       const layout = entry.layout || 'col-6';
       const numeralClass = 'n' + ((idx % 5) + 1);
-      const numeralNum = String(idx + 5).padStart(2, '0');
+      const numeralNum = String(idx + 1).padStart(2, '0');
 
       let html = `<article class="${esc(layout)}" style="min-height:380px;">`;
       html += `<span class="numeral ${numeralClass}">${numeralNum}</span>`;
