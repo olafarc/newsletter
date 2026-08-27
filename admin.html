@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>OLAF NEWS — Panel privado</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;900&family=Bebas+Neue&display=swap');
+
+  :root{
+    --ink:#111111;
+    --paper:#f7f6f2;
+    --green:#abd615;
+    --green-dim: rgba(171,214,21,0.14);
+    --error:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#d8d8d2;color:var(--ink);font-family:'Archivo',Helvetica,Arial,sans-serif;}
+
+  .wrap{max-width:820px;margin:24px auto;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.25);padding:0 0 32px;}
+
+  header.top{padding:22px 32px 16px;border-bottom:4px solid var(--ink);}
+  header.top h1{
+    font-family:'Archivo Black',Arial,sans-serif;
+    font-size:clamp(26px,5vw,40px);
+    margin:0 0 4px;
+  }
+  header.top h1 span{color:var(--green);}
+  header.top p{margin:0;font-size:12px;color:#555;}
+
+  section{padding:22px 32px;border-bottom:1px solid #ccc;}
+  section h2{
+    font-family:'Archivo Black',Arial,sans-serif;
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin:0 0 14px;
+    color:var(--green);
+  }
+
+  label{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin:14px 0 4px;}
+  label.inline{display:inline-flex;align-items:center;gap:8px;text-transform:none;font-weight:600;margin:10px 0;cursor:pointer;}
+  label.inline input[type="checkbox"]{width:16px;height:16px;accent-color:var(--green);cursor:pointer;}
+
+  input[type="text"], input[type="password"], input[type="url"], select, textarea{
+    width:100%;
+    font-family:'Archivo',Arial,sans-serif;
+    font-size:13px;
+    padding:9px 10px;
+    border:1.5px solid var(--ink);
+    background:#fff;
+    color:var(--ink);
+  }
+  textarea{resize:vertical;min-height:80px;line-height:1.5;}
+  input:focus, textarea:focus, select:focus{outline:2px solid var(--green);}
+  small.hint{display:block;font-size:11px;color:#666;margin-top:4px;}
+
+  .field-toggle{border:1.5px dashed #aaa;padding:10px 12px;margin-top:10px;background:#fff;}
+  .field-toggle.hidden-block{display:none;}
+
+  button{
+    font-family:'Archivo Black',Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    padding:11px 18px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    cursor:pointer;
+  }
+  button:hover{background:var(--green);color:var(--ink);}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  button.secondary{background:#fff;color:var(--ink);border:1.5px solid var(--ink);}
+  button.danger{background:#fff;color:var(--error);border:1.5px solid var(--error);}
+  button.danger:hover{background:var(--error);color:#fff;}
+  button.small{padding:6px 10px;font-size:10px;}
+
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px;}
+
+  .photo-row-item{border:1.5px solid var(--ink);padding:10px;margin-top:10px;background:#fdfdfb;position:relative;}
+  .photo-row-item .remove{position:absolute;top:8px;right:8px;}
+
+  #status{
+    font-size:12px;
+    padding:12px 14px;
+    border-left:4px solid var(--green);
+    background:var(--green-dim);
+    display:none;
+    white-space:pre-wrap;
+  }
+  #status.error{border-left-color:var(--error);background:rgba(192,57,43,.08);color:var(--error);}
+  #status.show{display:block;}
+
+  .entry-list-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;border-bottom:1px solid #ddd;font-size:12.5px;gap:10px;
+  }
+  .entry-list-item .meta{color:#666;font-size:10.5px;}
+  .entry-list-item .actions{display:flex;gap:6px;flex-shrink:0;}
+
+  details{margin-top:6px;font-size:12px;}
+  details summary{cursor:pointer;font-weight:700;color:var(--green);}
+  details ol{padding-left:18px;line-height:1.7;}
+
+  #form-section, #list-section{display:none;}
+  #form-section.show, #list-section.show{display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>OLAF<span>NEWS</span> — Panel</h1>
+    <p>Panel privado para publicar entradas nuevas sin tocar código. No está enlazado desde la portada.</p>
+  </header>
+
+  <!-- ===== CONEXIÓN CON GITHUB ===== -->
+  <section id="config-section">
+    <h2>1 · Conexión con tu repositorio</h2>
+
+    <label for="cfg-owner">Usuario de GitHub</label>
+    <input type="text" id="cfg-owner" placeholder="ej: olaf">
+
+    <label for="cfg-repo">Nombre del repositorio</label>
+    <input type="text" id="cfg-repo" placeholder="ej: olaf-news">
+
+    <label for="cfg-branch">Rama</label>
+    <input type="text" id="cfg-branch" value="main">
+
+    <label for="cfg-path">Ruta del archivo de entradas</label>
+    <input type="text" id="cfg-path" value="data/entries.json">
+
+    <label for="cfg-token">Token personal de GitHub (Personal Access Token)</label>
+    <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <label class="inline"><input type="checkbox" id="cfg-remember"> Recordar todo esto en este navegador (incluido el token)</label>
+    <small class="hint">Si no marcás la casilla, vas a tener que pegar el token de nuevo cada vez. Nunca lo compartas ni lo pegues en otro sitio.</small>
+
+    <div class="row">
+      <button id="connect-btn">Conectar</button>
+    </div>
+
+    <details>
+      <summary>¿Cómo genero el token?</summary>
+      <ol>
+        <li>Andá a GitHub → tu foto de perfil → <strong>Settings</strong>.</li>
+        <li>Bajá hasta <strong>Developer settings</strong> (al final del menú izquierdo).</li>
+        <li>Entrá a <strong>Personal access tokens → Fine-grained tokens → Generate new token</strong>.</li>
+        <li>En "Repository access" elegí <strong>Only select repositories</strong> y seleccioná el repo de esta página.</li>
+        <li>En "Permissions" buscá <strong>Contents</strong> y ponelo en <strong>Read and write</strong>.</li>
+        <li>Generá el token y copialo — GitHub solo te lo muestra una vez. Pegalo arriba.</li>
+      </ol>
+    </details>
+  </section>
+
+  <!-- ===== FORMULARIO DE ENTRADA ===== -->
+  <section id="form-section">
+    <h2 id="form-title">2 · Nueva entrada</h2>
+
+    <label for="f-layout">Tamaño de la nota</label>
+    <select id="f-layout">
+      <option value="col-4">Chica</option>
+      <option value="col-6" selected>Mediana</option>
+      <option value="col-8">Grande</option>
+      <option value="col-12">Completa (ancho total)</option>
+    </select>
+
+    <label class="inline"><input type="checkbox" id="t-volanta" checked> Incluir volanta (texto chico arriba del título)</label>
+    <div class="field-toggle" id="block-volanta">
+      <input type="text" id="f-volanta" placeholder="ej: Apuntes">
+    </div>
+
+    <label for="f-titulo">Título *</label>
+    <input type="text" id="f-titulo" placeholder="Título de la nota">
+
+    <label class="inline"><input type="checkbox" id="t-byline" checked> Incluir etiqueta (línea chica bajo el título)</label>
+    <div class="field-toggle" id="block-byline">
+      <input type="text" id="f-byline" placeholder="ej: Nota · Proceso">
+    </div>
+
+    <label class="inline"><input type="checkbox" id="t-copete" checked> Incluir copete (resumen breve destacado)</label>
+    <div class="field-toggle" id="block-copete">
+      <textarea id="f-copete" placeholder="Uno o dos renglones que resuman la nota"></textarea>
+    </div>
+
+    <label for="f-cuerpo">Cuerpo *</label>
+    <textarea id="f-cuerpo" style="min-height:160px;" placeholder="Escribí el texto. Dejá una línea en blanco entre párrafo y párrafo."></textarea>
+    <small class="hint">Cada párrafo separado por una línea en blanco se muestra como un párrafo distinto.</small>
+
+    <label class="inline"><input type="checkbox" id="t-fotos" checked> Incluir fotos</label>
+    <div class="field-toggle" id="block-fotos">
+      <div id="photo-list"></div>
+      <div class="row">
+        <button type="button" class="secondary small" id="add-photo-btn">+ Agregar foto</button>
+      </div>
+      <small class="hint">Subí un archivo o pegá una URL de imagen. Con exactamente 3 fotos se muestran en fila; con otra cantidad, apiladas. El epígrafe es el pie de foto (opcional).</small>
+    </div>
+
+    <label class="inline"><input type="checkbox" id="t-cita"> Incluir cita destacada</label>
+    <div class="field-toggle hidden-block" id="block-cita">
+      <input type="text" id="f-cita" placeholder="Frase corta destacada">
+    </div>
+
+    <div class="row">
+      <button id="publish-btn">Publicar entrada</button>
+      <button type="button" class="secondary" id="clear-btn">Limpiar formulario</button>
+    </div>
+  </section>
+
+  <!-- ===== LISTADO ===== -->
+  <section id="list-section">
+    <h2>3 · Entradas publicadas</h2>
+    <div id="entry-list"><p style="font-size:12px;color:#777;">No hay entradas todavía.</p></div>
+  </section>
+
+  <section>
+    <div id="status"></div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+
+  let cfg = { owner: '', repo: '', branch: 'main', path: 'data/entries.json', token: '' };
+  let entriesCache = [];
+  let entriesSha = null;
+  let editingId = null;
+  let photoRowCount = 0;
+
+  // ---------- persistence ----------
+  function loadSavedConfig() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('olafnews-admin-cfg') || 'null');
+      if (saved) {
+        $('cfg-owner').value = saved.owner || '';
+        $('cfg-repo').value = saved.repo || '';
+        $('cfg-branch').value = saved.branch || 'main';
+        $('cfg-path').value = saved.path || 'data/entries.json';
+        if (saved.token) {
+          $('cfg-token').value = saved.token;
+          $('cfg-remember').checked = true;
+        }
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  function saveConfigIfNeeded() {
+    if ($('cfg-remember').checked) {
+      localStorage.setItem('olafnews-admin-cfg', JSON.stringify(cfg));
+    } else {
+      localStorage.removeItem('olafnews-admin-cfg');
+    }
+  }
+
+  // ---------- helpers ----------
+  function setStatus(msg, isError) {
+    const el = $('status');
+    el.textContent = msg;
+    el.className = 'show' + (isError ? ' error' : '');
+  }
+
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p1) => String.fromCharCode('0x' + p1)));
+  }
+  function b64DecodeUnicode(str) {
+    return decodeURIComponent(atob(str.replace(/\n/g, '')).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+  }
+  function sanitizeFilename(name) {
+    return name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
+  }
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---------- GitHub API ----------
+  async function ghGet(path) {
+    const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${encodeURIComponent(cfg.branch)}`, {
+      headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github+json' }
+    });
+    if (res.status === 404) return { content: null, sha: null };
+    if (!res.ok) throw new Error(`Error leyendo ${path}: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    return { content: data.content, sha: data.sha };
+  }
+
+  async function ghPut(path, base64Content, sha, message) {
+    const body = { message, content: base64Content, branch: cfg.branch };
+    if (sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Error ${res.status} publicando ${path}`);
+    }
+    return res.json();
+  }
+
+  // ---------- connect ----------
+  $('connect-btn').addEventListener('click', async () => {
+    cfg = {
+      owner: $('cfg-owner').value.trim(),
+      repo: $('cfg-repo').value.trim(),
+      branch: $('cfg-branch').value.trim() || 'main',
+      path: $('cfg-path').value.trim() || 'data/entries.json',
+      token: $('cfg-token').value.trim()
+    };
+    if (!cfg.owner || !cfg.repo || !cfg.token) {
+      setStatus('Completá usuario, repositorio y token.', true);
+      return;
+    }
+    saveConfigIfNeeded();
+    await loadEntries();
+  });
+
+  async function loadEntries() {
+    setStatus('Conectando y cargando entradas...');
+    try {
+      const { content, sha } = await ghGet(cfg.path);
+      entriesSha = sha;
+      entriesCache = content ? JSON.parse(b64DecodeUnicode(content)) : [];
+      renderList();
+      $('form-section').classList.add('show');
+      $('list-section').classList.add('show');
+      setStatus(`Conectado a ${cfg.owner}/${cfg.repo}. ${entriesCache.length} entrada(s) publicada(s).`);
+    } catch (e) {
+      setStatus('No se pudo conectar: ' + e.message, true);
+    }
+  }
+
+  // ---------- toggle blocks ----------
+  function wireToggle(checkboxId, blockId) {
+    const cb = $(checkboxId), block = $(blockId);
+    const sync = () => block.classList.toggle('hidden-block', !cb.checked);
+    cb.addEventListener('change', sync);
+    sync();
+  }
+  wireToggle('t-volanta', 'block-volanta');
+  wireToggle('t-byline', 'block-byline');
+  wireToggle('t-copete', 'block-copete');
+  wireToggle('t-fotos', 'block-fotos');
+  wireToggle('t-cita', 'block-cita');
+
+  // ---------- photo rows ----------
+  function addPhotoRow(existing) {
+    photoRowCount++;
+    const id = 'photo-' + photoRowCount;
+    const div = document.createElement('div');
+    div.className = 'photo-row-item';
+    div.dataset.rowId = id;
+    div.innerHTML = `
+      <button type="button" class="secondary small remove">Quitar</button>
+      <label>Archivo de imagen</label>
+      <input type="file" accept="image/*" class="photo-file">
+      <label>...o URL de imagen (si no subís archivo)</label>
+      <input type="url" class="photo-url" placeholder="https://..." value="${existing && existing.url ? existing.url : ''}">
+      <label>Epígrafe (pie de foto, opcional)</label>
+      <input type="text" class="photo-caption" value="${existing && existing.epigrafe ? existing.epigrafe.replace(/"/g, '&quot;') : ''}">
+    `;
+    div.querySelector('.remove').addEventListener('click', () => div.remove());
+    $('photo-list').appendChild(div);
+  }
+  $('add-photo-btn').addEventListener('click', () => addPhotoRow());
+
+  // ---------- form reset ----------
+  function resetForm() {
+    editingId = null;
+    $('form-title').textContent = '2 · Nueva entrada';
+    $('f-layout').value = 'col-6';
+    $('t-volanta').checked = true; $('f-volanta').value = '';
+    $('f-titulo').value = '';
+    $('t-byline').checked = true; $('f-byline').value = '';
+    $('t-copete').checked = true; $('f-copete').value = '';
+    $('f-cuerpo').value = '';
+    $('t-fotos').checked = true; $('photo-list').innerHTML = '';
+    $('t-cita').checked = false; $('f-cita').value = '';
+    ['t-volanta', 't-byline', 't-copete', 't-fotos', 't-cita'].forEach(id => $(id).dispatchEvent(new Event('change')));
+    $('publish-btn').textContent = 'Publicar entrada';
+  }
+  $('clear-btn').addEventListener('click', resetForm);
+
+  // ---------- publish ----------
+  $('publish-btn').addEventListener('click', async () => {
+    const titulo = $('f-titulo').value.trim();
+    const cuerpoRaw = $('f-cuerpo').value.trim();
+    if (!titulo) { setStatus('El título es obligatorio.', true); return; }
+    if (!cuerpoRaw) { setStatus('El cuerpo es obligatorio.', true); return; }
+
+    $('publish-btn').disabled = true;
+    setStatus('Publicando, no cierres esta página...');
+
+    try {
+      const id = editingId || ('e' + Date.now());
+      const cuerpo = cuerpoRaw.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+
+      const fotos = [];
+      if ($('t-fotos').checked) {
+        const rows = Array.from(document.querySelectorAll('#photo-list .photo-row-item'));
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          const fileInput = row.querySelector('.photo-file');
+          const urlInput = row.querySelector('.photo-url');
+          const capInput = row.querySelector('.photo-caption');
+          let url = urlInput.value.trim();
+          if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            const base64 = await fileToBase64(file);
+            const filename = `${i}-${sanitizeFilename(file.name)}`;
+            const path = `assets/entries/${id}/${filename}`;
+            setStatus(`Subiendo foto ${i + 1} de ${rows.length}...`);
+            await ghPut(path, base64, null, `Subir foto para: ${titulo}`);
+            url = path;
+          }
+          if (url) fotos.push({ url, epigrafe: capInput.value.trim() });
+        }
+      }
+
+      const entry = {
+        id,
+        createdAt: new Date().toISOString(),
+        layout: $('f-layout').value,
+        showVolanta: $('t-volanta').checked,
+        volanta: $('f-volanta').value.trim(),
+        titulo,
+        showByline: $('t-byline').checked,
+        byline: $('f-byline').value.trim(),
+        showCopete: $('t-copete').checked,
+        copete: $('f-copete').value.trim(),
+        cuerpo,
+        showFotos: $('t-fotos').checked,
+        fotos,
+        showCita: $('t-cita').checked,
+        cita: $('f-cita').value.trim()
+      };
+
+      if (editingId) {
+        const idx = entriesCache.findIndex(e => e.id === editingId);
+        if (idx >= 0) entriesCache[idx] = entry; else entriesCache.push(entry);
+      } else {
+        entriesCache.push(entry);
+      }
+
+      setStatus('Guardando entries.json...');
+      const content = b64EncodeUnicode(JSON.stringify(entriesCache, null, 2));
+      const result = await ghPut(cfg.path, content, entriesSha, `${editingId ? 'Editar' : 'Publicar'} entrada: ${titulo}`);
+      entriesSha = result.content.sha;
+
+      renderList();
+      resetForm();
+      setStatus('¡Listo! La entrada se publicó. GitHub Pages puede tardar uno o dos minutos en mostrarla.');
+    } catch (e) {
+      setStatus('Error al publicar: ' + e.message, true);
+    } finally {
+      $('publish-btn').disabled = false;
+    }
+  });
+
+  // ---------- list / edit / delete ----------
+  function renderList() {
+    const container = $('entry-list');
+    if (!entriesCache.length) {
+      container.innerHTML = '<p style="font-size:12px;color:#777;">No hay entradas todavía.</p>';
+      return;
+    }
+    container.innerHTML = '';
+    entriesCache.slice().reverse().forEach(entry => {
+      const div = document.createElement('div');
+      div.className = 'entry-list-item';
+      const date = entry.createdAt ? new Date(entry.createdAt).toLocaleString() : '';
+      div.innerHTML = `
+        <div>
+          <div>${entry.titulo}</div>
+          <div class="meta">${date}</div>
+        </div>
+        <div class="actions">
+          <button type="button" class="secondary small" data-action="edit">Editar</button>
+          <button type="button" class="danger small" data-action="delete">Eliminar</button>
+        </div>
+      `;
+      div.querySelector('[data-action="edit"]').addEventListener('click', () => loadEntryIntoForm(entry));
+      div.querySelector('[data-action="delete"]').addEventListener('click', () => deleteEntry(entry.id));
+      container.appendChild(div);
+    });
+  }
+
+  function loadEntryIntoForm(entry) {
+    editingId = entry.id;
+    $('form-title').textContent = '2 · Editando: ' + entry.titulo;
+    $('f-layout').value = entry.layout || 'col-6';
+    $('t-volanta').checked = !!entry.showVolanta; $('f-volanta').value = entry.volanta || '';
+    $('f-titulo').value = entry.titulo || '';
+    $('t-byline').checked = !!entry.showByline; $('f-byline').value = entry.byline || '';
+    $('t-copete').checked = !!entry.showCopete; $('f-copete').value = entry.copete || '';
+    $('f-cuerpo').value = (entry.cuerpo || []).join('\n\n');
+    $('t-fotos').checked = !!entry.showFotos;
+    $('photo-list').innerHTML = '';
+    (entry.fotos || []).forEach(f => addPhotoRow(f));
+    $('t-cita').checked = !!entry.showCita; $('f-cita').value = entry.cita || '';
+    ['t-volanta', 't-byline', 't-copete', 't-fotos', 't-cita'].forEach(id => $(id).dispatchEvent(new Event('change')));
+    $('publish-btn').textContent = 'Guardar cambios';
+    window.scrollTo({ top: $('form-section').offsetTop - 20, behavior: 'smooth' });
+    setStatus('Editando "' + entry.titulo + '". Las fotos ya subidas se mantienen si no elegís un archivo nuevo.');
+  }
+
+  async function deleteEntry(id) {
+    if (!confirm('¿Eliminar esta entrada? Esto no se puede deshacer.')) return;
+    setStatus('Eliminando...');
+    try {
+      entriesCache = entriesCache.filter(e => e.id !== id);
+      const content = b64EncodeUnicode(JSON.stringify(entriesCache, null, 2));
+      const result = await ghPut(cfg.path, content, entriesSha, 'Eliminar entrada');
+      entriesSha = result.content.sha;
+      renderList();
+      setStatus('Entrada eliminada.');
+    } catch (e) {
+      setStatus('Error al eliminar: ' + e.message, true);
+    }
+  }
+
+  // ---------- init ----------
+  loadSavedConfig();
+})();
+</script>
+</body>
+</html>
