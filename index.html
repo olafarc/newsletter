@@ -53,6 +53,12 @@
   .masthead-top .col.right{text-align:right;}
   .masthead-top strong{font-weight:700;}
 
+  .right-group{
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+
   .masthead-title{
     display:flex;
     align-items:baseline;
@@ -88,15 +94,15 @@
   /* ===== now playing widget ===== */
   .now-playing-slot{
     display:flex;
-    gap:10px;
+    gap:12px;
     align-items:center;
-    max-width:230px;
+    max-width:280px;
     text-align:left;
   }
   .now-playing-slot:empty{display:none;}
   .now-playing-slot .np-cover{
-    width:54px;
-    height:54px;
+    width:72px;
+    height:72px;
     flex-shrink:0;
     object-fit:cover;
     border:1px solid var(--ink);
@@ -108,15 +114,15 @@
   .now-playing-slot .np-cover:active{
     filter:grayscale(0) contrast(1.05);
   }
-  .now-playing-slot .np-info{font-size:9.5px;line-height:1.5;}
+  .now-playing-slot .np-info{font-size:11px;line-height:1.5;}
   .now-playing-slot .np-label{
     display:block;
     color:var(--blue);
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:.08em;
-    font-size:8.5px;
-    margin-bottom:2px;
+    font-size:9.5px;
+    margin-bottom:3px;
   }
   .now-playing-slot .np-title{display:block;font-weight:700;}
   .now-playing-slot .np-meta{display:block;color:#555;}
@@ -304,6 +310,10 @@
     .masthead-title h1{font-size:44px;}
     .masthead-top, .masthead-bottom{flex-direction:column; gap:6px;}
     .masthead-top .col.right{text-align:left;}
+    .right-group{flex-direction:column; align-items:flex-start; gap:10px;}
+    .now-playing-slot .np-cover{width:54px;height:54px;}
+    .now-playing-slot .np-info{font-size:9.5px;}
+    .now-playing-slot .np-label{font-size:8.5px;}
   }
 </style>
 </head>
@@ -318,11 +328,13 @@
         <strong>Escribe:</strong> Olaf<br>
         <strong>Frecuencia:</strong> cuando hay algo para contar
       </div>
-      <div class="col right">
-        <strong>Primer número</strong><br>
-        Uso personal — no es un producto
+      <div class="right-group">
+        <div class="col right">
+          <strong>Primer número</strong><br>
+          Uso personal — no es un producto
+        </div>
+        <div class="col now-playing-slot" id="now-playing"></div>
       </div>
-      <div class="col now-playing-slot" id="now-playing"></div>
     </div>
 
     <div class="masthead-title">
