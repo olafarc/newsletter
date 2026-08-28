@@ -249,8 +249,9 @@
     </div>
 
     <div class="row">
-      <button id="np-publish-btn">Actualizar</button>
+      <button id="np-publish-btn">Agregar al historial</button>
       <button type="button" class="secondary" id="np-clear-btn">Limpiar</button>
+      <button type="button" class="danger" id="np-undo-btn">Quitar la última</button>
     </div>
     <small class="hint" id="np-current-hint"></small>
   </section>
@@ -271,6 +272,7 @@
   let editingId = null;
   let photoRowCount = 0;
   let npSha = null;
+  let npCache = [];
   function npPath() {
     const idx = cfg.path.lastIndexOf('/');
     const dir = idx >= 0 ? cfg.path.slice(0, idx + 1) : '';
@@ -384,9 +386,10 @@
 
       const npResult = await ghGet(npPath());
       npSha = npResult.sha;
-      if (npResult.content) {
-        const np = JSON.parse(b64DecodeUnicode(npResult.content));
-        loadNowPlayingIntoForm(np);
+      npCache = npResult.content ? JSON.parse(b64DecodeUnicode(npResult.content)) : [];
+      if (!Array.isArray(npCache)) npCache = npCache && npCache.nombre ? [npCache] : [];
+      if (npCache.length) {
+        $('np-current-hint').textContent = 'Último cargado: "' + npCache[0].nombre + '" — ' + npCache[0].interprete;
       }
 
       setStatus(`Conectado a ${cfg.owner}/${cfg.repo}. ${entriesCache.length} entrada(s) publicada(s).`);
@@ -593,19 +596,6 @@
     }
   }
 
-  function loadNowPlayingIntoForm(np) {
-    if (!np) return;
-    $('np-tipo').value = np.tipo === 'album' ? 'album' : 'cancion';
-    $('np-url').value = np.imagen || '';
-    $('np-nombre').value = np.nombre || '';
-    $('np-album').value = np.album || '';
-    $('np-interprete').value = np.interprete || '';
-    $('np-anio').value = np.anio || '';
-    $('np-comentario').value = np.comentario || '';
-    syncNpTipo();
-    $('np-current-hint').textContent = 'Mostrando actualmente: "' + (np.nombre || '') + '" — ' + (np.interprete || '');
-  }
-
   function clearNpForm() {
     $('np-tipo').value = 'cancion';
     $('np-file').value = '';
@@ -654,17 +644,39 @@
         np.comentario = $('np-comentario').value.trim();
       }
 
+      npCache.unshift(np);
+      if (npCache.length > 20) npCache = npCache.slice(0, 20);
+
       setStatus('Guardando nowplaying.json...');
-      const content = b64EncodeUnicode(JSON.stringify(np, null, 2));
-      const result = await ghPut(npPath(), content, npSha, `Actualizar lo último escuchado: ${nombre}`);
+      const content = b64EncodeUnicode(JSON.stringify(npCache, null, 2));
+      const result = await ghPut(npPath(), content, npSha, `Agregar al historial de escucha: ${nombre}`);
       npSha = result.content.sha;
 
-      $('np-current-hint').textContent = 'Mostrando actualmente: "' + nombre + '" — ' + interprete;
-      setStatus('¡Listo! Se actualizó. Puede tardar uno o dos minutos en verse en el sitio.');
+      $('np-current-hint').textContent = 'Último cargado: "' + nombre + '" — ' + interprete;
+      clearNpForm();
+      setStatus('¡Listo! Se agregó al historial. Puede tardar uno o dos minutos en verse en el sitio.');
     } catch (e) {
       setStatus('Error al actualizar: ' + e.message, true);
     } finally {
       $('np-publish-btn').disabled = false;
+    }
+  });
+
+  $('np-undo-btn').addEventListener('click', async () => {
+    if (!npCache.length) { setStatus('No hay nada que quitar.', true); return; }
+    if (!confirm('¿Quitar la última entrada agregada al historial?')) return;
+    setStatus('Quitando...');
+    try {
+      npCache.shift();
+      const content = b64EncodeUnicode(JSON.stringify(npCache, null, 2));
+      const result = await ghPut(npPath(), content, npSha, 'Quitar última entrada del historial de escucha');
+      npSha = result.content.sha;
+      $('np-current-hint').textContent = npCache.length
+        ? 'Último cargado: "' + npCache[0].nombre + '" — ' + npCache[0].interprete
+        : '';
+      setStatus('Listo, se quitó del historial.');
+    } catch (e) {
+      setStatus('Error: ' + e.message, true);
     }
   });
 
