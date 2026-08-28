@@ -128,6 +128,62 @@
   .now-playing-slot .np-meta{display:block;color:#555;}
   .now-playing-slot .np-comment{display:block;color:#777;font-style:italic;margin-top:2px;}
 
+  .now-playing-wrap{position:relative;}
+
+  .np-history{position:relative;margin-top:6px;text-align:right;}
+  .np-more{
+    display:inline-block;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--blue);
+    cursor:pointer;
+    background:rgba(247,246,242,0.65);
+    padding:2px 6px;
+    border-radius:2px;
+  }
+  .np-dropdown{
+    position:absolute;
+    top:100%;
+    right:0;
+    margin-top:6px;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    box-shadow:0 8px 24px rgba(0,0,0,.22);
+    width:250px;
+    max-width:85vw;
+    max-height:300px;
+    overflow-y:auto;
+    padding:8px;
+    display:none;
+    z-index:40;
+    text-align:left;
+  }
+  .np-history:hover .np-dropdown,
+  .np-history.open .np-dropdown{display:block;}
+
+  .np-dropdown-title{
+    font-size:8.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:#888;
+    margin-bottom:6px;
+    padding-bottom:6px;
+    border-bottom:1px solid #ccc;
+  }
+  .np-dropdown-item{display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #e2e2e2;}
+  .np-dropdown-item:last-child{border-bottom:none;}
+  .np-dropdown-item img{
+    width:32px;height:32px;flex-shrink:0;object-fit:cover;
+    border:1px solid var(--ink);
+    filter:grayscale(1) contrast(1.05);
+  }
+  .np-dropdown-item .dd-info{font-size:9.5px;line-height:1.4;}
+  .np-dropdown-item .dd-title{display:block;font-weight:700;}
+  .np-dropdown-item .dd-meta{display:block;color:#777;}
+
   /* ===== GRID ===== */
   .grid{
     position:relative;
@@ -341,7 +397,7 @@
           <strong>Primer número</strong><br>
           Uso personal — no es un producto
         </div>
-        <div class="col now-playing-slot" id="now-playing"></div>
+        <div class="col now-playing-wrap" id="now-playing-wrap"></div>
       </div>
     </div>
 
@@ -453,34 +509,64 @@
     }
 
     // ---- lo último que escuchaste ----
-    function renderNowPlaying(np) {
-      if (!np || !np.nombre) return '';
+    function npMeta(np) {
       const isAlbum = np.tipo === 'album';
-      const label = isAlbum ? 'Álbum del momento' : 'Escuchando ahora';
-      const meta = isAlbum
+      return isAlbum
         ? `${esc(np.interprete || '')} · ${esc(np.anio || '')}`
         : `${esc(np.interprete || '')} — ${esc(np.album || '')} · ${esc(np.anio || '')}`;
-      let html = '';
-      if (np.imagen) html += `<img class="np-cover" src="${esc(np.imagen)}" alt="${esc(np.nombre)}">`;
+    }
+
+    function renderDropdownItem(np) {
+      const img = np.imagen ? `<img src="${esc(np.imagen)}" alt="">` : '';
+      return `<div class="np-dropdown-item">${img}<div class="dd-info"><span class="dd-title">${esc(np.nombre || '')}</span><span class="dd-meta">${npMeta(np)}</span></div></div>`;
+    }
+
+    function renderNowPlaying(list) {
+      if (!Array.isArray(list) || !list.length || !list[0].nombre) return '';
+      const current = list[0];
+      const isAlbum = current.tipo === 'album';
+      const label = isAlbum ? 'Álbum del momento' : 'Escuchando ahora';
+
+      let html = '<div class="now-playing-slot">';
+      if (current.imagen) html += `<img class="np-cover" src="${esc(current.imagen)}" alt="${esc(current.nombre)}">`;
       html += '<div class="np-info">';
       html += `<span class="np-label">${label}</span>`;
-      html += `<span class="np-title">${esc(np.nombre)}</span>`;
-      html += `<span class="np-meta">${meta}</span>`;
-      if (isAlbum && np.comentario) html += `<span class="np-comment">${esc(np.comentario)}</span>`;
-      html += '</div>';
+      html += `<span class="np-title">${esc(current.nombre)}</span>`;
+      html += `<span class="np-meta">${npMeta(current)}</span>`;
+      if (isAlbum && current.comentario) html += `<span class="np-comment">${esc(current.comentario)}</span>`;
+      html += '</div></div>';
+
+      html += '<div class="np-history">';
+      html += '<span class="np-more" tabindex="0">Ilumíname</span>';
+      html += '<div class="np-dropdown">';
+      html += '<div class="np-dropdown-title">Últimas ' + list.length + ' escuchas</div>';
+      html += list.map(renderDropdownItem).join('');
+      html += '</div></div>';
+
       return html;
     }
 
     try {
-      const npEl = document.getElementById('now-playing');
+      const npWrap = document.getElementById('now-playing-wrap');
       const npRes = await fetch('data/nowplaying.json', { cache: 'no-store' });
-      if (npEl && npRes.ok) {
-        const np = await npRes.json();
-        npEl.innerHTML = renderNowPlaying(np);
+      if (npWrap && npRes.ok) {
+        const npList = await npRes.json();
+        npWrap.innerHTML = renderNowPlaying(npList);
       }
     } catch (err) {
       console.error('No se pudo cargar "lo último escuchado":', err);
     }
+
+    // toggle del historial por tap/click, además del hover
+    document.addEventListener('click', function (e) {
+      const trigger = e.target.closest('.np-more');
+      document.querySelectorAll('.np-history.open').forEach(el => {
+        if (!el.contains(e.target)) el.classList.remove('open');
+      });
+      if (trigger) {
+        trigger.closest('.np-history').classList.toggle('open');
+      }
+    });
   })();
   </script>
 </body>
