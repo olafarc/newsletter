@@ -114,6 +114,22 @@
   .now-playing-slot .np-cover:active{
     filter:grayscale(0) contrast(1.05);
   }
+
+  .now-playing-slot .steam-cover{
+    width:120px;
+    aspect-ratio:460/215;
+    height:auto;
+    flex-shrink:0;
+    object-fit:cover;
+    border:1px solid var(--ink);
+    filter:grayscale(1) contrast(1.05);
+    transition:filter .4s ease;
+    cursor:pointer;
+  }
+  .now-playing-slot .steam-cover:hover,
+  .now-playing-slot .steam-cover:active{
+    filter:grayscale(0) contrast(1.05);
+  }
   .now-playing-slot .np-info{font-size:11px;line-height:1.5;}
   .now-playing-slot .np-label{
     display:block;
@@ -182,6 +198,11 @@
     width:32px;height:32px;flex-shrink:0;object-fit:cover;
     border:1px solid var(--ink);
     filter:grayscale(1) contrast(1.05);
+  }
+  .np-dropdown-item img.steam-dd-cover{
+    width:56px;
+    height:auto;
+    aspect-ratio:460/215;
   }
   .np-dropdown-item .dd-info{font-size:9.5px;line-height:1.4;}
   .np-dropdown-item .dd-title{display:block;font-weight:700;}
@@ -479,6 +500,7 @@
     .masthead-top .col.right{text-align:left;}
     .right-group{flex-direction:column; align-items:flex-start; gap:10px;}
     .now-playing-slot .np-cover{width:54px;height:54px;}
+    .now-playing-slot .steam-cover{width:96px;}
     .now-playing-slot .np-info{font-size:9.5px;}
     .now-playing-slot .np-label{font-size:8.5px;}
   }
@@ -800,7 +822,7 @@
     }
 
     function renderSteamDropdownItem(g) {
-      const img = g.header ? `<img src="${esc(g.header)}" alt="">` : '';
+      const img = g.header ? `<img class="steam-dd-cover" src="${esc(g.header)}" alt="">` : '';
       return `<div class="np-dropdown-item">${img}<div class="dd-info"><span class="dd-title">${esc(g.name || '')}</span><span class="dd-meta">${steamMeta(g)}</span></div></div>`;
     }
 
@@ -811,7 +833,7 @@
       const label = data.currentlyPlaying ? 'Jugando ahora' : 'Última partida';
 
       let html = '<div class="now-playing-slot">';
-      if (featured.header) html += `<img class="np-cover" src="${esc(featured.header)}" alt="${esc(featured.name)}">`;
+      if (featured.header) html += `<img class="steam-cover" src="${esc(featured.header)}" alt="${esc(featured.name)}">`;
       html += '<div class="np-info">';
       html += `<span class="np-label">${label}</span>`;
       html += `<span class="np-title">${esc(featured.name)}</span>`;
