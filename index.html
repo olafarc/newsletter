@@ -131,6 +131,9 @@
   .now-playing-wrap{position:relative;}
 
   .np-history{position:relative;margin-top:6px;text-align:right;}
+
+  .steam-row{margin-top:10px;padding-top:10px;border-top:1px solid #ccc;}
+  .steam-row:empty{display:none;}
   .np-more{
     display:inline-block;
     font-size:9px;
@@ -510,6 +513,8 @@
       <span>Apuntes, procesos e ideas sueltas</span>
       <span class="tag">Nº 01</span>
     </div>
+
+    <div class="steam-row" id="steam-wrap"></div>
   </div>
 
   <!-- ================= ENTRADAS PUBLICADAS DESDE EL PANEL ================= -->
@@ -785,6 +790,57 @@
         trigger.closest('.np-history').classList.toggle('open');
       }
     });
+
+    // ---- steam: lo último que jugué ----
+    function steamMeta(g) {
+      const parts = [];
+      if (g.playtime2weeksMinutes) parts.push(`${(g.playtime2weeksMinutes / 60).toFixed(1)} h estas 2 semanas`);
+      if (g.playtimeForeverMinutes) parts.push(`${Math.round(g.playtimeForeverMinutes / 60)} h en total`);
+      return parts.join(' · ');
+    }
+
+    function renderSteamDropdownItem(g) {
+      const img = g.header ? `<img src="${esc(g.header)}" alt="">` : '';
+      return `<div class="np-dropdown-item">${img}<div class="dd-info"><span class="dd-title">${esc(g.name || '')}</span><span class="dd-meta">${steamMeta(g)}</span></div></div>`;
+    }
+
+    function renderSteamWidget(data) {
+      if (!data) return '';
+      const featured = data.currentlyPlaying || data.lastPlayed;
+      if (!featured || !featured.name) return '';
+      const label = data.currentlyPlaying ? 'Jugando ahora' : 'Última partida';
+
+      let html = '<div class="now-playing-slot">';
+      if (featured.header) html += `<img class="np-cover" src="${esc(featured.header)}" alt="${esc(featured.name)}">`;
+      html += '<div class="np-info">';
+      html += `<span class="np-label">${label}</span>`;
+      html += `<span class="np-title">${esc(featured.name)}</span>`;
+      const meta = steamMeta(featured);
+      if (meta) html += `<span class="np-meta">${meta}</span>`;
+      html += '</div></div>';
+
+      const recent = Array.isArray(data.recent) ? data.recent : [];
+      if (recent.length) {
+        html += '<div class="np-history">';
+        html += '<span class="np-more" tabindex="0">Más partidas</span>';
+        html += '<div class="np-dropdown">';
+        html += '<div class="np-dropdown-title">Jugado recientemente</div>';
+        html += recent.map(renderSteamDropdownItem).join('');
+        html += '</div></div>';
+      }
+      return html;
+    }
+
+    try {
+      const steamWrap = document.getElementById('steam-wrap');
+      const steamRes = await fetch('data/steam.json', { cache: 'no-store' });
+      if (steamWrap && steamRes.ok) {
+        const steamData = await steamRes.json();
+        steamWrap.innerHTML = renderSteamWidget(steamData);
+      }
+    } catch (err) {
+      console.error('No se pudo cargar el estado de Steam:', err);
+    }
   })();
   </script>
 </body>
