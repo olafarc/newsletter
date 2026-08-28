@@ -1,6 +1,15 @@
 [
   {
     "tipo": "album",
+    "imagen": "assets/nowplaying/cover-1787878444643-unnamed.jpg",
+    "nombre": "Big Yuyo",
+    "interprete": "Los Pericos",
+    "anio": "1992",
+    "updatedAt": "2026-08-28T00:54:06.998Z",
+    "comentario": ""
+  },
+  {
+    "tipo": "album",
     "imagen": "assets/nowplaying/cover-1787878321665-radaquien.webp",
     "nombre": "Quién Va A Cantar",
     "interprete": "Ruben Rada",
