@@ -130,6 +130,34 @@
   .now-playing-slot .steam-cover:active{
     filter:grayscale(0) contrast(1.05);
   }
+
+  .now-playing-slot.steam-slot{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    width:120px;
+    max-width:120px;
+  }
+  .now-playing-slot.steam-slot .steam-info{width:100%;}
+  .steam-title-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:6px;
+    width:100%;
+  }
+  .steam-title-row .np-title{
+    flex:1;
+    min-width:0;
+    overflow-wrap:break-word;
+  }
+  .steam-hours{
+    font-size:9.5px;
+    font-weight:700;
+    color:#555;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
   .now-playing-slot .np-info{font-size:11px;line-height:1.5;}
   .now-playing-slot .np-label{
     display:block;
@@ -501,6 +529,7 @@
     .right-group{flex-direction:column; align-items:flex-start; gap:10px;}
     .now-playing-slot .np-cover{width:54px;height:54px;}
     .now-playing-slot .steam-cover{width:96px;}
+    .now-playing-slot.steam-slot{width:96px;max-width:96px;}
     .now-playing-slot .np-info{font-size:9.5px;}
     .now-playing-slot .np-label{font-size:8.5px;}
   }
@@ -826,19 +855,28 @@
       return `<div class="np-dropdown-item">${img}<div class="dd-info"><span class="dd-title">${esc(g.name || '')}</span><span class="dd-meta">${steamMeta(g)}</span></div></div>`;
     }
 
+    function steamHoursLabel(g) {
+      const minutes = g.playtimeForeverMinutes || g.playtime2weeksMinutes || 0;
+      if (!minutes) return '';
+      const hours = minutes / 60;
+      return (hours >= 10 ? Math.round(hours) : hours.toFixed(1)) + ' h';
+    }
+
     function renderSteamWidget(data) {
       if (!data) return '';
       const featured = data.currentlyPlaying || data.lastPlayed;
       if (!featured || !featured.name) return '';
       const label = data.currentlyPlaying ? 'Jugando ahora' : 'Última partida';
+      const hours = steamHoursLabel(featured);
 
-      let html = '<div class="now-playing-slot">';
+      let html = '<div class="now-playing-slot steam-slot">';
       if (featured.header) html += `<img class="steam-cover" src="${esc(featured.header)}" alt="${esc(featured.name)}">`;
-      html += '<div class="np-info">';
+      html += '<div class="np-info steam-info">';
       html += `<span class="np-label">${label}</span>`;
+      html += '<div class="steam-title-row">';
       html += `<span class="np-title">${esc(featured.name)}</span>`;
-      const meta = steamMeta(featured);
-      if (meta) html += `<span class="np-meta">${meta}</span>`;
+      if (hours) html += `<span class="steam-hours">${hours}</span>`;
+      html += '</div>';
       html += '</div></div>';
 
       const recent = Array.isArray(data.recent) ? data.recent : [];
