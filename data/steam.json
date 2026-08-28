@@ -1,0 +1,41 @@
+{
+  "updatedAt": "2026-08-28T23:48:34.189Z",
+  "currentlyPlaying": null,
+  "lastPlayed": {
+    "appid": 307690,
+    "name": "Sleeping Dogs: Definitive Edition",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
+    "playtime2weeksMinutes": 734,
+    "playtimeForeverMinutes": 1757
+  },
+  "recent": [
+    {
+      "appid": 307690,
+      "name": "Sleeping Dogs: Definitive Edition",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
+      "playtime2weeksMinutes": 734,
+      "playtimeForeverMinutes": 1757
+    },
+    {
+      "appid": 238090,
+      "name": "Sniper Elite 3",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/238090/header.jpg",
+      "playtime2weeksMinutes": 66,
+      "playtimeForeverMinutes": 830
+    },
+    {
+      "appid": 814380,
+      "name": "Sekiro™: Shadows Die Twice",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",
+      "playtime2weeksMinutes": 4,
+      "playtimeForeverMinutes": 145
+    },
+    {
+      "appid": 218620,
+      "name": "PAYDAY 2",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/218620/header.jpg",
+      "playtime2weeksMinutes": 1,
+      "playtimeForeverMinutes": 1225
+    }
+  ]
+}
