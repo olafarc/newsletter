@@ -184,6 +184,76 @@
   .np-dropdown-item .dd-title{display:block;font-weight:700;}
   .np-dropdown-item .dd-meta{display:block;color:#777;}
 
+  /* ===== leer más / modal de nota completa ===== */
+  .read-more-dots{
+    display:block;
+    margin-top:4px;
+    background:none;
+    border:none;
+    color:var(--blue);
+    font-size:20px;
+    letter-spacing:5px;
+    line-height:1;
+    cursor:pointer;
+    padding:6px 0;
+    text-align:left;
+    transition:opacity .2s ease;
+  }
+  .read-more-dots:hover{opacity:.6;}
+
+  .photo.color-always{filter:grayscale(0) contrast(1.05) !important;}
+
+  .entry-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    z-index:200;
+    align-items:flex-start;
+    justify-content:center;
+    padding:5vh 20px;
+    overflow-y:auto;
+  }
+  .entry-modal.open{display:flex;}
+  .entry-modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:0;
+  }
+  .entry-modal-content{
+    position:relative;
+    z-index:1;
+    background:var(--paper);
+    width:100%;
+    max-width:760px;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+  }
+  .entry-modal-close{
+    position:sticky;
+    top:0;
+    float:right;
+    margin:-10px -10px 10px 10px;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:none;
+    background:var(--ink);
+    color:var(--paper);
+    font-size:14px;
+    line-height:1;
+    cursor:pointer;
+    z-index:2;
+  }
+  .entry-modal-close:hover{background:var(--blue);color:var(--ink);}
+
+  @media (max-width:900px){
+    .entry-modal{padding:0;}
+    .entry-modal-content{max-width:100%;max-height:100vh;min-height:100vh;padding:24px;}
+  }
+
   /* ===== GRID ===== */
   .grid{
     position:relative;
@@ -426,7 +496,14 @@
 
 </div>
 
-  <!-- ============ CARGA DE ENTRADAS PUBLICADAS DESDE data/entries.json ============ -->
+<!-- ================= MODAL: NOTA COMPLETA ================= -->
+<div class="entry-modal" id="entry-modal">
+  <div class="entry-modal-backdrop"></div>
+  <div class="entry-modal-content">
+    <button type="button" class="entry-modal-close" aria-label="Cerrar">✕</button>
+    <div id="entry-modal-body"></div>
+  </div>
+</div>
   <script>
   (async function () {
     const container = document.getElementById('entradas-nuevas');
@@ -447,10 +524,44 @@
       return `background-image:url('${esc(url)}');background-size:cover;background-position:center;`;
     }
 
+    const BODY_LIMIT = 2400;
+    let loadedEntries = [];
+
+    function truncateCuerpo(cuerpo, limit) {
+      let total = 0;
+      const out = [];
+      for (const p of cuerpo) {
+        if (total + p.length <= limit) {
+          out.push(p);
+          total += p.length;
+        } else {
+          const remaining = limit - total;
+          if (remaining > 20) {
+            let cut = p.slice(0, remaining);
+            const lastSpace = cut.lastIndexOf(' ');
+            if (lastSpace > remaining * 0.6) cut = cut.slice(0, lastSpace);
+            out.push(cut.trim());
+          }
+          return out;
+        }
+      }
+      return out;
+    }
+
+    function renderPhotos(fotos, colorAlways) {
+      if (!fotos || !fotos.length) return '';
+      const cls = 'photo' + (colorAlways ? ' color-always' : '');
+      const items = fotos.map(f => `<div class="${cls}" data-caption="${esc(f.epigrafe || '')}" style="${photoStyle(f.url)}"></div>`).join('');
+      return fotos.length === 3 ? `<div class="photo-row">${items}</div>` : items;
+    }
+
     function renderEntry(entry, idx) {
       const layout = entry.layout || 'col-6';
       const numeralClass = 'n' + ((idx % 5) + 1);
       const numeralNum = String(idx + 1).padStart(2, '0');
+      const fullLength = Array.isArray(entry.cuerpo) ? entry.cuerpo.join('').length : 0;
+      const isLong = fullLength > BODY_LIMIT;
+      const cuerpoToShow = isLong ? truncateCuerpo(entry.cuerpo, BODY_LIMIT) : (entry.cuerpo || []);
 
       let html = `<article class="${esc(layout)}" style="min-height:380px;">`;
       html += `<span class="numeral ${numeralClass}">${numeralNum}</span>`;
@@ -469,24 +580,16 @@
         html += `<p style="font-weight:700;">${esc(entry.copete)}</p>`;
       }
 
-      if (entry.showFotos && Array.isArray(entry.fotos) && entry.fotos.length) {
-        if (entry.fotos.length === 3) {
-          html += '<div class="photo-row">';
-          entry.fotos.forEach(f => {
-            html += `<div class="photo" data-caption="${esc(f.epigrafe || '')}" style="${photoStyle(f.url)}"></div>`;
-          });
-          html += '</div>';
-        } else {
-          entry.fotos.forEach(f => {
-            html += `<div class="photo" data-caption="${esc(f.epigrafe || '')}" style="${photoStyle(f.url)}"></div>`;
-          });
-        }
+      if (entry.showFotos) {
+        html += renderPhotos(entry.fotos, false);
       }
 
-      if (Array.isArray(entry.cuerpo)) {
-        entry.cuerpo.forEach(p => {
-          if (p && p.trim()) html += `<p>${esc(p)}</p>`;
-        });
+      cuerpoToShow.forEach(p => {
+        if (p && p.trim()) html += `<p>${esc(p)}${isLong && p === cuerpoToShow[cuerpoToShow.length - 1] ? '…' : ''}</p>`;
+      });
+
+      if (isLong) {
+        html += `<button type="button" class="read-more-dots" data-entry-idx="${idx}" aria-label="Leer nota completa">•••</button>`;
       }
 
       if (entry.showCita && entry.cita) {
@@ -497,11 +600,53 @@
       return html;
     }
 
+    function renderModalContent(entry) {
+      let html = '';
+      if (entry.showVolanta && entry.volanta) html += `<div class="eyebrow">${esc(entry.volanta)}</div>`;
+      html += `<h2 class="headline">${esc(entry.titulo)}<span class="dot">.</span></h2>`;
+      if (entry.showByline && entry.byline) html += `<div class="byline">${esc(entry.byline)}</div>`;
+      if (entry.showCopete && entry.copete) html += `<p style="font-weight:700;">${esc(entry.copete)}</p>`;
+      if (entry.showFotos) html += renderPhotos(entry.fotos, true);
+      (entry.cuerpo || []).forEach(p => {
+        if (p && p.trim()) html += `<p>${esc(p)}</p>`;
+      });
+      if (entry.showCita && entry.cita) html += `<div class="pull">${esc(entry.cita)}</div>`;
+      return html;
+    }
+
+    function openEntryModal(idx) {
+      const entry = loadedEntries[idx];
+      if (!entry) return;
+      const modal = document.getElementById('entry-modal');
+      const body = document.getElementById('entry-modal-body');
+      body.innerHTML = renderModalContent(entry);
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEntryModal() {
+      const modal = document.getElementById('entry-modal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', e => {
+      const dots = e.target.closest('.read-more-dots');
+      if (dots) { openEntryModal(Number(dots.dataset.entryIdx)); return; }
+      if (e.target.closest('.entry-modal-close') || e.target.classList.contains('entry-modal-backdrop')) {
+        closeEntryModal();
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeEntryModal();
+    });
+
     try {
       const res = await fetch('data/entries.json', { cache: 'no-store' });
       if (!res.ok) return;
       const entries = await res.json();
-      entries.forEach((entry, idx) => {
+      loadedEntries = entries.slice().reverse();
+      loadedEntries.forEach((entry, idx) => {
         container.insertAdjacentHTML('beforeend', renderEntry(entry, idx));
       });
     } catch (err) {
