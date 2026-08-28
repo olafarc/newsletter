@@ -343,6 +343,27 @@
   }
   p:last-of-type{margin-bottom:0;}
 
+  article ul, article ol,
+  .entry-modal-content ul, .entry-modal-content ol{
+    font-size:12.5px;
+    line-height:1.72;
+    margin:0 0 12px;
+    padding-left:20px;
+  }
+  article blockquote,
+  .entry-modal-content blockquote{
+    margin:0 0 12px;
+    padding-left:14px;
+    border-left:3px solid var(--ink);
+    font-style:italic;
+    color:#333;
+  }
+  article a, .entry-modal-content a{
+    color:var(--blue);
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+
   /* photo blocks: grayscale placeholder */
   .photo{
     aspect-ratio:4/3;
@@ -536,22 +557,65 @@
     const BODY_LIMIT = 2400;
     let loadedEntries = [];
 
+    // ---------- rich text: allow-list sanitizer for cuerpo (defense-in-depth; admin.html already sanitizes on save) ----------
+    const RTE_ALLOWED = { P: [], BR: [], STRONG: [], B: [], EM: [], I: [], U: [], UL: [], OL: [], LI: [], BLOCKQUOTE: [], A: ['href', 'target', 'rel'] };
+    function isSafeLinkUrl(url) {
+      const u = (url || '').trim();
+      return /^https?:\/\//i.test(u) || /^mailto:/i.test(u);
+    }
+    function sanitizeRte(html) {
+      const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+      const root = doc.body.firstChild;
+      (function clean(node) {
+        Array.from(node.childNodes).forEach(child => {
+          if (child.nodeType === Node.TEXT_NODE) return;
+          if (child.nodeType !== Node.ELEMENT_NODE) { node.removeChild(child); return; }
+          const tag = child.tagName;
+          if (!RTE_ALLOWED[tag]) {
+            while (child.firstChild) node.insertBefore(child.firstChild, child);
+            node.removeChild(child);
+            return;
+          }
+          const href = child.getAttribute('href');
+          Array.from(child.attributes).forEach(a => child.removeAttribute(a.name));
+          if (tag === 'A') {
+            if (isSafeLinkUrl(href)) {
+              child.setAttribute('href', href.trim());
+              child.setAttribute('target', '_blank');
+              child.setAttribute('rel', 'noopener noreferrer nofollow');
+            } else {
+              while (child.firstChild) node.insertBefore(child.firstChild, child);
+              node.removeChild(child);
+              return;
+            }
+          }
+          clean(child);
+        });
+      })(root);
+      return root.innerHTML;
+    }
+    // A cuerpo block is either a legacy plain-text paragraph or a sanitized HTML block string (starts with "<").
+    function cuerpoBlockText(p) {
+      const s = (p || '').toString();
+      return s.trim().startsWith('<') ? s.replace(/<[^>]+>/g, '') : s;
+    }
+    function renderCuerpoBlock(p) {
+      const s = (p || '').toString();
+      if (!s.trim()) return '';
+      return s.trim().startsWith('<') ? sanitizeRte(s) : `<p>${esc(s)}</p>`;
+    }
+
     function truncateCuerpo(cuerpo, limit) {
       let total = 0;
       const out = [];
       for (const p of cuerpo) {
-        if (total + p.length <= limit) {
+        const text = cuerpoBlockText(p);
+        if (!out.length || total + text.length <= limit) {
           out.push(p);
-          total += p.length;
+          total += text.length;
+          if (total >= limit) break;
         } else {
-          const remaining = limit - total;
-          if (remaining > 20) {
-            let cut = p.slice(0, remaining);
-            const lastSpace = cut.lastIndexOf(' ');
-            if (lastSpace > remaining * 0.6) cut = cut.slice(0, lastSpace);
-            out.push(cut.trim());
-          }
-          return out;
+          break;
         }
       }
       return out;
@@ -568,7 +632,7 @@
       const layout = entry.layout || 'col-6';
       const numeralClass = 'n' + ((idx % 5) + 1);
       const numeralNum = String(idx + 1).padStart(2, '0');
-      const fullLength = Array.isArray(entry.cuerpo) ? entry.cuerpo.join('').length : 0;
+      const fullLength = Array.isArray(entry.cuerpo) ? entry.cuerpo.reduce((sum, p) => sum + cuerpoBlockText(p).length, 0) : 0;
       const isLong = fullLength > BODY_LIMIT;
       const cuerpoToShow = isLong ? truncateCuerpo(entry.cuerpo, BODY_LIMIT) : (entry.cuerpo || []);
 
@@ -594,7 +658,7 @@
       }
 
       cuerpoToShow.forEach(p => {
-        if (p && p.trim()) html += `<p>${esc(p)}${isLong && p === cuerpoToShow[cuerpoToShow.length - 1] ? '…' : ''}</p>`;
+        html += renderCuerpoBlock(p);
       });
 
       if (isLong) {
@@ -617,7 +681,7 @@
       if (entry.showCopete && entry.copete) html += `<p style="font-weight:700;">${esc(entry.copete)}</p>`;
       if (entry.showFotos) html += renderPhotos(entry.fotos, true);
       (entry.cuerpo || []).forEach(p => {
-        if (p && p.trim()) html += `<p>${esc(p)}</p>`;
+        html += renderCuerpoBlock(p);
       });
       if (entry.showCita && entry.cita) html += `<div class="pull">${esc(entry.cita)}</div>`;
       return html;
