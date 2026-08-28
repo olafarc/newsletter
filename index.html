@@ -186,20 +186,29 @@
 
   /* ===== leer más / modal de nota completa ===== */
   .read-more-dots{
-    display:block;
-    margin-top:4px;
-    background:none;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-top:8px;
+    background:rgba(247,246,242,0.75);
     border:none;
     color:var(--blue);
-    font-size:20px;
-    letter-spacing:5px;
-    line-height:1;
     cursor:pointer;
-    padding:6px 0;
-    text-align:left;
+    padding:5px 9px;
+    border-radius:2px;
+    font-family:'Archivo', Arial, sans-serif;
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
     transition:opacity .2s ease;
   }
-  .read-more-dots:hover{opacity:.6;}
+  .read-more-dots .rm-dots{
+    font-size:17px;
+    letter-spacing:3px;
+    line-height:1;
+  }
+  .read-more-dots:hover{opacity:.65;}
 
   .photo.color-always{filter:grayscale(0) contrast(1.05) !important;}
 
@@ -589,7 +598,7 @@
       });
 
       if (isLong) {
-        html += `<button type="button" class="read-more-dots" data-entry-idx="${idx}" aria-label="Leer nota completa">•••</button>`;
+        html += `<button type="button" class="read-more-dots" data-entry-idx="${idx}" aria-label="Leer nota completa"><span class="rm-label">Leer más</span><span class="rm-dots">•••</span></button>`;
       }
 
       if (entry.showCita && entry.cita) {
