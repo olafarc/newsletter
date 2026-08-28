@@ -106,6 +106,40 @@
 
   #form-section, #list-section{display:none;}
   #form-section.show, #list-section.show{display:block;}
+
+  .rte-toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:6px;border:1.5px solid var(--ink);border-bottom:none;background:#eeede8;}
+  .rte-btn{
+    font-family:'Archivo',Arial,sans-serif;
+    font-size:12px;
+    font-weight:700;
+    padding:6px 9px;
+    background:#fff;
+    color:var(--ink);
+    border:1.5px solid var(--ink);
+    cursor:pointer;
+    line-height:1;
+  }
+  .rte-btn:hover{background:var(--green);}
+  .rte-btn.active{background:var(--ink);color:var(--paper);}
+  .rte-sep{width:1px;background:#bbb;margin:2px 4px;}
+  .rte-editor{
+    width:100%;
+    min-height:160px;
+    font-family:'Archivo',Arial,sans-serif;
+    font-size:13px;
+    line-height:1.6;
+    padding:10px 12px;
+    border:1.5px solid var(--ink);
+    background:#fff;
+    color:var(--ink);
+    overflow-y:auto;
+  }
+  .rte-editor:focus{outline:2px solid var(--green);outline-offset:-2px;}
+  .rte-editor.empty::before{content:attr(data-placeholder);color:#888;}
+  .rte-editor p{margin:0 0 10px;}
+  .rte-editor ul, .rte-editor ol{margin:0 0 10px;padding-left:22px;}
+  .rte-editor blockquote{margin:0 0 10px;padding-left:12px;border-left:3px solid var(--ink);color:#444;}
+  .rte-editor a{color:#0b6b9e;text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -185,8 +219,22 @@
     </div>
 
     <label for="f-cuerpo">Cuerpo *</label>
-    <textarea id="f-cuerpo" style="min-height:160px;" placeholder="Escribí el texto. Dejá una línea en blanco entre párrafo y párrafo."></textarea>
-    <small class="hint">Cada párrafo separado por una línea en blanco se muestra como un párrafo distinto.</small>
+    <div class="rte-toolbar" id="rte-toolbar">
+      <button type="button" class="rte-btn" data-cmd="bold" title="Negrita"><b>N</b></button>
+      <button type="button" class="rte-btn" data-cmd="italic" title="Cursiva"><i>C</i></button>
+      <button type="button" class="rte-btn" data-cmd="underline" title="Subrayado"><u>S</u></button>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" data-cmd="insertUnorderedList" title="Lista con viñetas">• Lista</button>
+      <button type="button" class="rte-btn" data-cmd="insertOrderedList" title="Lista numerada">1. Lista</button>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" data-cmd="outdent" title="Quitar sangría">⇤ Sangría</button>
+      <button type="button" class="rte-btn" data-cmd="indent" title="Aplicar sangría">⇥ Sangría</button>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" id="rte-link-btn" title="Insertar hipervínculo">🔗 Enlace</button>
+      <button type="button" class="rte-btn" id="rte-unlink-btn" title="Quitar hipervínculo">✕ Enlace</button>
+    </div>
+    <div id="f-cuerpo" class="rte-editor" contenteditable="true" data-placeholder="Escribí el texto acá. Seleccioná una palabra y usá la barra de arriba para darle formato."></div>
+    <small class="hint">Dejá una línea en blanco (Enter) entre párrafo y párrafo. Podés usar negrita, cursiva, subrayado, sangría, listas y enlaces.</small>
 
     <label class="inline"><input type="checkbox" id="t-fotos" checked> Incluir fotos</label>
     <div class="field-toggle" id="block-fotos">
@@ -322,6 +370,82 @@
   function sanitizeFilename(name) {
     return name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
   }
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ---------- rich text: allow-list sanitizer for cuerpo ----------
+  const RTE_ALLOWED = { P: [], BR: [], STRONG: [], B: [], EM: [], I: [], U: [], UL: [], OL: [], LI: [], BLOCKQUOTE: [], A: ['href', 'target', 'rel'] };
+  function isSafeLinkUrl(url) {
+    const u = (url || '').trim();
+    return /^https?:\/\//i.test(u) || /^mailto:/i.test(u);
+  }
+  function sanitizeRte(html) {
+    const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+    const root = doc.body.firstChild;
+    (function clean(node) {
+      Array.from(node.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) return;
+        if (child.nodeType !== Node.ELEMENT_NODE) { node.removeChild(child); return; }
+        const tag = child.tagName;
+        if (!RTE_ALLOWED[tag]) {
+          while (child.firstChild) node.insertBefore(child.firstChild, child);
+          node.removeChild(child);
+          return;
+        }
+        const href = child.getAttribute('href');
+        Array.from(child.attributes).forEach(a => child.removeAttribute(a.name));
+        if (tag === 'A') {
+          if (isSafeLinkUrl(href)) {
+            child.setAttribute('href', href.trim());
+            child.setAttribute('target', '_blank');
+            child.setAttribute('rel', 'noopener noreferrer nofollow');
+          } else {
+            while (child.firstChild) node.insertBefore(child.firstChild, child);
+            node.removeChild(child);
+            return;
+          }
+        }
+        clean(child);
+      });
+    })(root);
+    return root.innerHTML;
+  }
+  // Extracts the cuerpo editor's content as an array of sanitized HTML block strings.
+  function extractCuerpoBlocks(editorEl) {
+    const blocks = [];
+    Array.from(editorEl.childNodes).forEach(rawNode => {
+      let node = rawNode;
+      if (node.nodeType === Node.TEXT_NODE) {
+        const t = node.textContent.trim();
+        if (t) blocks.push('<p>' + escapeHtml(t) + '</p>');
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      if (node.tagName === 'DIV') {
+        const p = document.createElement('p');
+        p.innerHTML = node.innerHTML;
+        node = p;
+      }
+      const clean = sanitizeRte(node.outerHTML);
+      const textOnly = clean.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
+      if (!textOnly && !/<li/i.test(clean)) return;
+      blocks.push(clean);
+    });
+    return blocks;
+  }
+  // Rebuilds the editor's innerHTML from stored cuerpo blocks (new HTML blocks or legacy plain-text paragraphs).
+  function cuerpoBlocksToHtml(cuerpo) {
+    return (cuerpo || []).map(p => {
+      const s = (p || '').toString();
+      return s.trim().startsWith('<') ? s : (s.trim() ? '<p>' + escapeHtml(s) + '</p>' : '');
+    }).join('');
+  }
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -411,6 +535,52 @@
   wireToggle('t-fotos', 'block-fotos');
   wireToggle('t-cita', 'block-cita');
 
+  // ---------- rich text editor: toolbar wiring ----------
+  document.execCommand('defaultParagraphSeparator', false, 'p');
+  const cuerpoEditor = $('f-cuerpo');
+  function syncCuerpoPlaceholder() {
+    const text = cuerpoEditor.textContent.trim();
+    cuerpoEditor.classList.toggle('empty', text === '');
+  }
+  cuerpoEditor.addEventListener('input', syncCuerpoPlaceholder);
+  syncCuerpoPlaceholder();
+
+  document.querySelectorAll('#rte-toolbar .rte-btn[data-cmd]').forEach(btn => {
+    btn.addEventListener('mousedown', e => e.preventDefault());
+    btn.addEventListener('click', () => {
+      cuerpoEditor.focus();
+      document.execCommand(btn.dataset.cmd, false, null);
+      syncCuerpoPlaceholder();
+    });
+  });
+
+  $('rte-link-btn').addEventListener('mousedown', e => e.preventDefault());
+  $('rte-link-btn').addEventListener('click', () => {
+    cuerpoEditor.focus();
+    const sel = window.getSelection();
+    const hasSelection = sel && !sel.isCollapsed && cuerpoEditor.contains(sel.anchorNode);
+    const url = prompt('URL del enlace (tiene que empezar con http://, https:// o mailto:)');
+    if (!url) return;
+    const trimmed = url.trim();
+    if (!isSafeLinkUrl(trimmed)) {
+      setStatus('El enlace tiene que empezar con http://, https:// o mailto:', true);
+      return;
+    }
+    if (hasSelection) {
+      document.execCommand('createLink', false, trimmed);
+    } else {
+      const text = prompt('Texto del enlace') || trimmed;
+      document.execCommand('insertHTML', false, '<a href="' + escapeHtml(trimmed) + '">' + escapeHtml(text) + '</a>');
+    }
+    syncCuerpoPlaceholder();
+  });
+
+  $('rte-unlink-btn').addEventListener('mousedown', e => e.preventDefault());
+  $('rte-unlink-btn').addEventListener('click', () => {
+    cuerpoEditor.focus();
+    document.execCommand('unlink', false, null);
+  });
+
   // ---------- now playing: type toggle ----------
   function syncNpTipo() {
     const isAlbum = $('np-tipo').value === 'album';
@@ -450,7 +620,8 @@
     $('f-titulo').value = '';
     $('t-byline').checked = true; $('f-byline').value = '';
     $('t-copete').checked = true; $('f-copete').value = '';
-    $('f-cuerpo').value = '';
+    $('f-cuerpo').innerHTML = '';
+    syncCuerpoPlaceholder();
     $('t-fotos').checked = true; $('photo-list').innerHTML = '';
     $('t-cita').checked = false; $('f-cita').value = '';
     ['t-volanta', 't-byline', 't-copete', 't-fotos', 't-cita'].forEach(id => $(id).dispatchEvent(new Event('change')));
@@ -461,16 +632,16 @@
   // ---------- publish ----------
   $('publish-btn').addEventListener('click', async () => {
     const titulo = $('f-titulo').value.trim();
-    const cuerpoRaw = $('f-cuerpo').value.trim();
+    const cuerpoEmpty = $('f-cuerpo').textContent.trim() === '';
     if (!titulo) { setStatus('El título es obligatorio.', true); return; }
-    if (!cuerpoRaw) { setStatus('El cuerpo es obligatorio.', true); return; }
+    if (cuerpoEmpty) { setStatus('El cuerpo es obligatorio.', true); return; }
 
     $('publish-btn').disabled = true;
     setStatus('Publicando, no cierres esta página...');
 
     try {
       const id = editingId || ('e' + Date.now());
-      const cuerpo = cuerpoRaw.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+      const cuerpo = extractCuerpoBlocks($('f-cuerpo'));
 
       const fotos = [];
       if ($('t-fotos').checked) {
@@ -570,7 +741,8 @@
     $('f-titulo').value = entry.titulo || '';
     $('t-byline').checked = !!entry.showByline; $('f-byline').value = entry.byline || '';
     $('t-copete').checked = !!entry.showCopete; $('f-copete').value = entry.copete || '';
-    $('f-cuerpo').value = (entry.cuerpo || []).join('\n\n');
+    $('f-cuerpo').innerHTML = cuerpoBlocksToHtml(entry.cuerpo);
+    syncCuerpoPlaceholder();
     $('t-fotos').checked = !!entry.showFotos;
     $('photo-list').innerHTML = '';
     (entry.fotos || []).forEach(f => addPhotoRow(f));
