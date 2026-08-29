@@ -132,18 +132,18 @@
   }
 
   .now-playing-slot.steam-slot{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:6px;
-    width:120px;
-    max-width:120px;
+    flex-direction:row;
+    align-items:center;
+    gap:14px;
+    width:100%;
+    max-width:none;
   }
-  .now-playing-slot.steam-slot .steam-info{width:100%;}
+  .now-playing-slot.steam-slot .steam-info{flex:1;min-width:0;}
   .steam-title-row{
     display:flex;
     justify-content:space-between;
     align-items:baseline;
-    gap:6px;
+    gap:10px;
     width:100%;
   }
   .steam-title-row .np-title{
@@ -158,6 +158,7 @@
     white-space:nowrap;
     flex-shrink:0;
   }
+  .steam-row{max-width:520px;}
   .now-playing-slot .np-info{font-size:11px;line-height:1.5;}
   .now-playing-slot .np-label{
     display:block;
@@ -529,7 +530,6 @@
     .right-group{flex-direction:column; align-items:flex-start; gap:10px;}
     .now-playing-slot .np-cover{width:54px;height:54px;}
     .now-playing-slot .steam-cover{width:96px;}
-    .now-playing-slot.steam-slot{width:96px;max-width:96px;}
     .now-playing-slot .np-info{font-size:9.5px;}
     .now-playing-slot .np-label{font-size:8.5px;}
   }
