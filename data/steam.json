@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-29T00:31:41.921Z",
+  "updatedAt": "2026-08-29T01:01:38.630Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 307690,
@@ -15,13 +15,6 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
       "playtime2weeksMinutes": 734,
       "playtimeForeverMinutes": 1757
-    },
-    {
-      "appid": 238090,
-      "name": "Sniper Elite 3",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/238090/header.jpg",
-      "playtime2weeksMinutes": 29,
-      "playtimeForeverMinutes": 830
     },
     {
       "appid": 814380,
