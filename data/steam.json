@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-08-29T14:02:11.925Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-08-29T14:31:44.526Z",
+  "currentlyPlaying": {
+    "appid": "730",
+    "name": "Counter-Strike 2",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+    "playtime2weeksMinutes": 0,
+    "playtimeForeverMinutes": 0
+  },
   "lastPlayed": {
     "appid": 307690,
     "name": "Sleeping Dogs: Definitive Edition",
