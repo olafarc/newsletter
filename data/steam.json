@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-08-29T21:31:58.356Z",
+  "updatedAt": "2026-08-29T22:01:48.672Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 307690,
     "name": "Sleeping Dogs: Definitive Edition",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
-    "playtime2weeksMinutes": 456,
+    "playtime2weeksMinutes": 426,
     "playtimeForeverMinutes": 1757
   },
   "recent": [
@@ -13,7 +13,7 @@
       "appid": 307690,
       "name": "Sleeping Dogs: Definitive Edition",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
-      "playtime2weeksMinutes": 456,
+      "playtime2weeksMinutes": 426,
       "playtimeForeverMinutes": 1757
     },
     {
