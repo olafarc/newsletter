@@ -158,7 +158,6 @@
     white-space:nowrap;
     flex-shrink:0;
   }
-  .steam-row{max-width:520px;}
   .now-playing-slot .np-info{font-size:11px;line-height:1.5;}
   .now-playing-slot .np-label{
     display:block;
@@ -177,8 +176,26 @@
 
   .np-history{position:relative;margin-top:6px;text-align:right;}
 
-  .steam-row{margin-top:10px;padding-top:10px;border-top:1px solid #ccc;}
-  .steam-row:empty{display:none;}
+  .status-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid #ccc;
+    flex-wrap:wrap;
+  }
+  .status-slot{flex:1;min-width:200px;}
+  .status-slot:empty{display:none;min-width:0;}
+  .status-row:not(:has(.status-slot:not(:empty))){display:none;}
+
+  /* refleja el widget de música: portada a la derecha, para hacer de espejo con Steam (portada a la izquierda) */
+  .status-row .now-playing-wrap .now-playing-slot{
+    flex-direction:row-reverse;
+    justify-content:flex-end;
+    text-align:right;
+  }
   .np-more{
     display:inline-block;
     font-size:9px;
@@ -532,6 +549,8 @@
     .now-playing-slot .steam-cover{width:96px;}
     .now-playing-slot .np-info{font-size:9.5px;}
     .now-playing-slot .np-label{font-size:8.5px;}
+    .status-row{flex-direction:column; align-items:stretch; gap:16px;}
+    .status-row .now-playing-wrap .now-playing-slot{flex-direction:row; justify-content:flex-start; text-align:left;}
   }
 </style>
 </head>
@@ -551,7 +570,6 @@
           <strong>Primer número</strong><br>
           Uso personal — no es un producto
         </div>
-        <div class="col now-playing-wrap" id="now-playing-wrap"></div>
       </div>
     </div>
 
@@ -565,7 +583,10 @@
       <span class="tag">Nº 01</span>
     </div>
 
-    <div class="steam-row" id="steam-wrap"></div>
+    <div class="status-row">
+      <div class="col status-slot" id="steam-wrap"></div>
+      <div class="col status-slot now-playing-wrap" id="now-playing-wrap"></div>
+    </div>
   </div>
 
   <!-- ================= ENTRADAS PUBLICADAS DESDE EL PANEL ================= -->
