@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-30T02:31:55.090Z",
+  "updatedAt": "2026-08-30T03:01:54.870Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 307690,
@@ -22,13 +22,6 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
       "playtime2weeksMinutes": 43,
       "playtimeForeverMinutes": 21918
-    },
-    {
-      "appid": 814380,
-      "name": "Sekiro™: Shadows Die Twice",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",
-      "playtime2weeksMinutes": 4,
-      "playtimeForeverMinutes": 145
     },
     {
       "appid": 218620,
