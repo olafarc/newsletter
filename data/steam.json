@@ -1,27 +1,27 @@
 {
-  "updatedAt": "2026-08-31T14:02:28.866Z",
+  "updatedAt": "2026-08-31T14:31:50.317Z",
   "currentlyPlaying": null,
   "lastPlayed": {
-    "appid": 307690,
-    "name": "Sleeping Dogs: Definitive Edition",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
-    "playtime2weeksMinutes": 61,
-    "playtimeForeverMinutes": 1757
+    "appid": 730,
+    "name": "Counter-Strike 2",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+    "playtime2weeksMinutes": 43,
+    "playtimeForeverMinutes": 21918
   },
   "recent": [
-    {
-      "appid": 307690,
-      "name": "Sleeping Dogs: Definitive Edition",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
-      "playtime2weeksMinutes": 61,
-      "playtimeForeverMinutes": 1757
-    },
     {
       "appid": 730,
       "name": "Counter-Strike 2",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
       "playtime2weeksMinutes": 43,
       "playtimeForeverMinutes": 21918
+    },
+    {
+      "appid": 307690,
+      "name": "Sleeping Dogs: Definitive Edition",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/307690/header.jpg",
+      "playtime2weeksMinutes": 31,
+      "playtimeForeverMinutes": 1757
     },
     {
       "appid": 218620,
