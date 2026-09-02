@@ -1,6 +1,15 @@
 [
   {
     "tipo": "album",
+    "imagen": "assets/nowplaying/cover-1788367413265-unnamed.jpg",
+    "nombre": "Survival",
+    "interprete": "Bob Marley & The Wailers",
+    "anio": "1979",
+    "updatedAt": "2026-09-02T16:43:35.432Z",
+    "comentario": "Objetivamente, el mejor disco de Marley"
+  },
+  {
+    "tipo": "album",
     "imagen": "assets/nowplaying/cover-1787962010915-unnamed.jpg",
     "nombre": "Gol de Mujer",
     "interprete": "Divididos",
