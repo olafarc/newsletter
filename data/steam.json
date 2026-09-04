@@ -1,12 +1,6 @@
 {
-  "updatedAt": "2026-09-04T17:32:33.704Z",
-  "currentlyPlaying": {
-    "appid": 241930,
-    "name": "Middle-earth™: Shadow of Mordor™",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-    "playtime2weeksMinutes": 30,
-    "playtimeForeverMinutes": 1026
-  },
+  "updatedAt": "2026-09-04T18:03:09.811Z",
+  "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 730,
     "name": "Counter-Strike 2",
@@ -26,8 +20,15 @@
       "appid": 241930,
       "name": "Middle-earth™: Shadow of Mordor™",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-      "playtime2weeksMinutes": 30,
-      "playtimeForeverMinutes": 1026
+      "playtime2weeksMinutes": 37,
+      "playtimeForeverMinutes": 1034
+    },
+    {
+      "appid": 1222670,
+      "name": "The Sims™ 4",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
+      "playtime2weeksMinutes": 4,
+      "playtimeForeverMinutes": 1604
     }
   ]
 }
