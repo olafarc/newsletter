@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-12T15:02:37.593Z",
+  "updatedAt": "2026-09-12T15:33:10.818Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 241930,
@@ -22,13 +22,6 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
       "playtime2weeksMinutes": 96,
       "playtimeForeverMinutes": 1696
-    },
-    {
-      "appid": 730,
-      "name": "Counter-Strike 2",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
-      "playtime2weeksMinutes": 1,
-      "playtimeForeverMinutes": 21918
     }
   ]
 }
