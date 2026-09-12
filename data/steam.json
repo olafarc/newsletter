@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-12T22:32:42.055Z",
+  "updatedAt": "2026-09-12T23:02:45.997Z",
   "currentlyPlaying": {
     "appid": 1222670,
     "name": "The Sims™ 4",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
-    "playtime2weeksMinutes": 246,
-    "playtimeForeverMinutes": 1846
+    "playtime2weeksMinutes": 276,
+    "playtimeForeverMinutes": 1876
   },
   "lastPlayed": {
     "appid": 241930,
@@ -26,8 +26,8 @@
       "appid": 1222670,
       "name": "The Sims™ 4",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
-      "playtime2weeksMinutes": 246,
-      "playtimeForeverMinutes": 1846
+      "playtime2weeksMinutes": 276,
+      "playtimeForeverMinutes": 1876
     },
     {
       "appid": 1097150,
