@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-12T05:34:06.423Z",
+  "updatedAt": "2026-09-12T06:03:35.760Z",
   "currentlyPlaying": {
     "appid": 1222670,
     "name": "The Sims™ 4",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
-    "playtime2weeksMinutes": 14,
-    "playtimeForeverMinutes": 1614
+    "playtime2weeksMinutes": 44,
+    "playtimeForeverMinutes": 1644
   },
   "lastPlayed": {
     "appid": 241930,
@@ -23,18 +23,18 @@
       "playtimeForeverMinutes": 1554
     },
     {
+      "appid": 1222670,
+      "name": "The Sims™ 4",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
+      "playtime2weeksMinutes": 44,
+      "playtimeForeverMinutes": 1644
+    },
+    {
       "appid": 730,
       "name": "Counter-Strike 2",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
       "playtime2weeksMinutes": 43,
       "playtimeForeverMinutes": 21918
-    },
-    {
-      "appid": 1222670,
-      "name": "The Sims™ 4",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
-      "playtime2weeksMinutes": 14,
-      "playtimeForeverMinutes": 1614
     }
   ]
 }
