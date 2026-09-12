@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-09-12T16:03:16.175Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-09-12T16:34:09.460Z",
+  "currentlyPlaying": {
+    "appid": 241930,
+    "name": "Middle-earth™: Shadow of Mordor™",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
+    "playtime2weeksMinutes": 557,
+    "playtimeForeverMinutes": 1554
+  },
   "lastPlayed": {
     "appid": 241930,
     "name": "Middle-earth™: Shadow of Mordor™",
@@ -22,6 +28,13 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
       "playtime2weeksMinutes": 96,
       "playtimeForeverMinutes": 1696
+    },
+    {
+      "appid": 1097150,
+      "name": "Fall Guys",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1097150/header.jpg",
+      "playtime2weeksMinutes": 4,
+      "playtimeForeverMinutes": 7627
     }
   ]
 }
