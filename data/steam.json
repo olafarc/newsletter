@@ -1,26 +1,26 @@
 {
-  "updatedAt": "2026-09-12T16:34:09.460Z",
+  "updatedAt": "2026-09-12T17:02:33.696Z",
   "currentlyPlaying": {
     "appid": 241930,
     "name": "Middle-earth™: Shadow of Mordor™",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-    "playtime2weeksMinutes": 557,
-    "playtimeForeverMinutes": 1554
+    "playtime2weeksMinutes": 587,
+    "playtimeForeverMinutes": 1584
   },
   "lastPlayed": {
     "appid": 241930,
     "name": "Middle-earth™: Shadow of Mordor™",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-    "playtime2weeksMinutes": 557,
-    "playtimeForeverMinutes": 1554
+    "playtime2weeksMinutes": 587,
+    "playtimeForeverMinutes": 1584
   },
   "recent": [
     {
       "appid": 241930,
       "name": "Middle-earth™: Shadow of Mordor™",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-      "playtime2weeksMinutes": 557,
-      "playtimeForeverMinutes": 1554
+      "playtime2weeksMinutes": 587,
+      "playtimeForeverMinutes": 1584
     },
     {
       "appid": 1222670,
