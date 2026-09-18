@@ -1,12 +1,6 @@
 {
-  "updatedAt": "2026-09-18T02:36:16.557Z",
-  "currentlyPlaying": {
-    "appid": 1062090,
-    "name": "Timberborn",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
-    "playtime2weeksMinutes": 83,
-    "playtimeForeverMinutes": 150
-  },
+  "updatedAt": "2026-09-18T03:03:07.042Z",
+  "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 1222670,
     "name": "The Sims™ 4",
@@ -33,8 +27,8 @@
       "appid": 1062090,
       "name": "Timberborn",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
-      "playtime2weeksMinutes": 83,
-      "playtimeForeverMinutes": 150
+      "playtime2weeksMinutes": 106,
+      "playtimeForeverMinutes": 173
     },
     {
       "appid": 1097150,
