@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-09-18T23:02:44.597Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-09-18T23:33:17.719Z",
+  "currentlyPlaying": {
+    "appid": 1062090,
+    "name": "Timberborn",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
+    "playtime2weeksMinutes": 343,
+    "playtimeForeverMinutes": 410
+  },
   "lastPlayed": {
     "appid": 1222670,
     "name": "The Sims™ 4",
@@ -20,7 +26,7 @@
       "appid": 241930,
       "name": "Middle-earth™: Shadow of Mordor™",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-      "playtime2weeksMinutes": 465,
+      "playtime2weeksMinutes": 434,
       "playtimeForeverMinutes": 1601
     },
     {
