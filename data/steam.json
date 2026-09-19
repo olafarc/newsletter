@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-19T03:35:08.930Z",
+  "updatedAt": "2026-09-19T04:03:09.258Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 1222670,
@@ -27,7 +27,7 @@
       "appid": 241930,
       "name": "Middle-earth™: Shadow of Mordor™",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241930/header.jpg",
-      "playtime2weeksMinutes": 287,
+      "playtime2weeksMinutes": 259,
       "playtimeForeverMinutes": 1601
     },
     {
