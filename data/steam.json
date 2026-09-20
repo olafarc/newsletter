@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-09-20T22:02:38.207Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-09-20T22:33:53.609Z",
+  "currentlyPlaying": {
+    "appid": "394360",
+    "name": "Hearts of Iron IV",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",
+    "playtime2weeksMinutes": 0,
+    "playtimeForeverMinutes": 0
+  },
   "lastPlayed": {
     "appid": 1222670,
     "name": "The Sims™ 4",
@@ -21,7 +27,7 @@
       "name": "Timberborn",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
       "playtime2weeksMinutes": 578,
-      "playtimeForeverMinutes": 626
+      "playtimeForeverMinutes": 645
     },
     {
       "appid": 241930,
