@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-02T20:14:00.594Z",
+  "updatedAt": "2026-10-02T23:52:57.198Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 1062090,
     "name": "Timberborn",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
-    "playtime2weeksMinutes": 235,
+    "playtime2weeksMinutes": 207,
     "playtimeForeverMinutes": 645
   },
   "recent": [
@@ -13,7 +13,7 @@
       "appid": 1062090,
       "name": "Timberborn",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
-      "playtime2weeksMinutes": 235,
+      "playtime2weeksMinutes": 207,
       "playtimeForeverMinutes": 645
     },
     {
