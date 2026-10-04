@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-04T20:15:52.567Z",
+  "updatedAt": "2026-10-04T23:20:37.774Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 394360,
     "name": "Hearts of Iron IV",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",
-    "playtime2weeksMinutes": 62,
+    "playtime2weeksMinutes": 14,
     "playtimeForeverMinutes": 234
   },
   "recent": [
@@ -13,22 +13,8 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",
-      "playtime2weeksMinutes": 62,
+      "playtime2weeksMinutes": 14,
       "playtimeForeverMinutes": 234
-    },
-    {
-      "appid": 1062090,
-      "name": "Timberborn",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
-      "playtime2weeksMinutes": 19,
-      "playtimeForeverMinutes": 645
-    },
-    {
-      "appid": 105600,
-      "name": "Terraria",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-      "playtime2weeksMinutes": 4,
-      "playtimeForeverMinutes": 14155
     }
   ]
 }
