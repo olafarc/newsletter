@@ -1,20 +1,6 @@
 {
-  "updatedAt": "2026-10-05T02:09:34.453Z",
+  "updatedAt": "2026-10-05T09:17:23.201Z",
   "currentlyPlaying": null,
-  "lastPlayed": {
-    "appid": 394360,
-    "name": "Hearts of Iron IV",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",
-    "playtime2weeksMinutes": 14,
-    "playtimeForeverMinutes": 234
-  },
-  "recent": [
-    {
-      "appid": 394360,
-      "name": "Hearts of Iron IV",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",
-      "playtime2weeksMinutes": 14,
-      "playtimeForeverMinutes": 234
-    }
-  ]
+  "lastPlayed": null,
+  "recent": []
 }
