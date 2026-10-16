@@ -1,14 +1,21 @@
 {
-  "updatedAt": "2026-10-16T05:15:30.961Z",
+  "updatedAt": "2026-10-16T09:58:50.949Z",
   "currentlyPlaying": null,
   "lastPlayed": {
-    "appid": 203770,
-    "name": "Crusader Kings II",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/203770/header.jpg",
-    "playtime2weeksMinutes": 22,
-    "playtimeForeverMinutes": 22
+    "appid": 105600,
+    "name": "Terraria",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
+    "playtime2weeksMinutes": 56,
+    "playtimeForeverMinutes": 14212
   },
   "recent": [
+    {
+      "appid": 105600,
+      "name": "Terraria",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
+      "playtime2weeksMinutes": 56,
+      "playtimeForeverMinutes": 14212
+    },
     {
       "appid": 203770,
       "name": "Crusader Kings II",
