@@ -1,26 +1,20 @@
 {
-  "updatedAt": "2026-10-17T04:43:52.718Z",
-  "currentlyPlaying": {
-    "appid": 105600,
-    "name": "Terraria",
-    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-    "playtime2weeksMinutes": 116,
-    "playtimeForeverMinutes": 14272
-  },
+  "updatedAt": "2026-10-17T08:54:40.045Z",
+  "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 105600,
     "name": "Terraria",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-    "playtime2weeksMinutes": 116,
-    "playtimeForeverMinutes": 14272
+    "playtime2weeksMinutes": 274,
+    "playtimeForeverMinutes": 14429
   },
   "recent": [
     {
       "appid": 105600,
       "name": "Terraria",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-      "playtime2weeksMinutes": 116,
-      "playtimeForeverMinutes": 14272
+      "playtime2weeksMinutes": 274,
+      "playtimeForeverMinutes": 14429
     },
     {
       "appid": 203770,
