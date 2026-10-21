@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-10-21T15:43:31.267Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-10-21T19:45:13.463Z",
+  "currentlyPlaying": {
+    "appid": 105600,
+    "name": "Terraria",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
+    "playtime2weeksMinutes": 2306,
+    "playtimeForeverMinutes": 16461
+  },
   "lastPlayed": {
     "appid": 105600,
     "name": "Terraria",
