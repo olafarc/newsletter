@@ -1,20 +1,26 @@
 {
-  "updatedAt": "2026-10-22T20:39:31.210Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-10-22T23:45:08.080Z",
+  "currentlyPlaying": {
+    "appid": 105600,
+    "name": "Terraria",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
+    "playtime2weeksMinutes": 3121,
+    "playtimeForeverMinutes": 17277
+  },
   "lastPlayed": {
     "appid": 105600,
     "name": "Terraria",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-    "playtime2weeksMinutes": 3040,
-    "playtimeForeverMinutes": 17195
+    "playtime2weeksMinutes": 3121,
+    "playtimeForeverMinutes": 17277
   },
   "recent": [
     {
       "appid": 105600,
       "name": "Terraria",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-      "playtime2weeksMinutes": 3040,
-      "playtimeForeverMinutes": 17195
+      "playtime2weeksMinutes": 3121,
+      "playtimeForeverMinutes": 17277
     },
     {
       "appid": 203770,
@@ -22,6 +28,13 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/203770/header.jpg",
       "playtime2weeksMinutes": 22,
       "playtimeForeverMinutes": 22
+    },
+    {
+      "appid": 1281930,
+      "name": "tModLoader",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1281930/header.jpg",
+      "playtime2weeksMinutes": 14,
+      "playtimeForeverMinutes": 14
     }
   ]
 }
