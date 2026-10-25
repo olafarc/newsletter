@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T01:23:47.067Z",
+  "updatedAt": "2026-10-25T06:23:11.525Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 105600,
@@ -17,18 +17,18 @@
       "playtimeForeverMinutes": 17855
     },
     {
-      "appid": 203770,
-      "name": "Crusader Kings II",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/203770/header.jpg",
-      "playtime2weeksMinutes": 22,
-      "playtimeForeverMinutes": 22
-    },
-    {
       "appid": 1281930,
       "name": "tModLoader",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1281930/header.jpg",
       "playtime2weeksMinutes": 14,
       "playtimeForeverMinutes": 14
+    },
+    {
+      "appid": 241260,
+      "name": "Sherlock Holmes: Crimes and Punishments",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241260/header.jpg",
+      "playtime2weeksMinutes": 10,
+      "playtimeForeverMinutes": 10
     }
   ]
 }
