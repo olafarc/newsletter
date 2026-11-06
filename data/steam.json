@@ -1,11 +1,17 @@
 {
-  "updatedAt": "2026-11-05T22:26:18.471Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-11-06T02:39:02.761Z",
+  "currentlyPlaying": {
+    "appid": "2185060",
+    "name": "Two Point Museum",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/2185060/header.jpg",
+    "playtime2weeksMinutes": 0,
+    "playtimeForeverMinutes": 0
+  },
   "lastPlayed": {
     "appid": 105600,
     "name": "Terraria",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-    "playtime2weeksMinutes": 681,
+    "playtime2weeksMinutes": 559,
     "playtimeForeverMinutes": 17895
   },
   "recent": [
@@ -13,7 +19,7 @@
       "appid": 105600,
       "name": "Terraria",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
-      "playtime2weeksMinutes": 681,
+      "playtime2weeksMinutes": 559,
       "playtimeForeverMinutes": 17895
     },
     {
@@ -22,13 +28,6 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241260/header.jpg",
       "playtime2weeksMinutes": 10,
       "playtimeForeverMinutes": 10
-    },
-    {
-      "appid": 1281930,
-      "name": "tModLoader",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1281930/header.jpg",
-      "playtime2weeksMinutes": 2,
-      "playtimeForeverMinutes": 14
     }
   ]
 }
