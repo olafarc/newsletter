@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-08T02:34:57.426Z",
+  "updatedAt": "2026-11-08T09:41:19.091Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 105600,
@@ -22,13 +22,6 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/2185060/header.jpg",
       "playtime2weeksMinutes": 25,
       "playtimeForeverMinutes": 2262
-    },
-    {
-      "appid": 241260,
-      "name": "Sherlock Holmes: Crimes and Punishments",
-      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/241260/header.jpg",
-      "playtime2weeksMinutes": 10,
-      "playtimeForeverMinutes": 10
     }
   ]
 }
