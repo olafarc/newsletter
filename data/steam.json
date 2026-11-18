@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-11-18T17:23:31.497Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-11-18T23:27:20.554Z",
+  "currentlyPlaying": {
+    "appid": 489830,
+    "name": "The Elder Scrolls V: Skyrim Special Edition",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
+    "playtime2weeksMinutes": 1005,
+    "playtimeForeverMinutes": 4918
+  },
   "lastPlayed": {
     "appid": 489830,
     "name": "The Elder Scrolls V: Skyrim Special Edition",
