@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-19T21:54:45.526Z",
+  "updatedAt": "2026-11-20T02:44:11.152Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 489830,
@@ -20,7 +20,7 @@
       "appid": 2185060,
       "name": "Two Point Museum",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/2185060/header.jpg",
-      "playtime2weeksMinutes": 25,
+      "playtime2weeksMinutes": 2,
       "playtimeForeverMinutes": 2262
     }
   ]
