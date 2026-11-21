@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T00:26:35.855Z",
+  "updatedAt": "2026-11-21T07:30:43.005Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 489830,
@@ -15,6 +15,20 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
       "playtime2weeksMinutes": 1144,
       "playtimeForeverMinutes": 5056
+    },
+    {
+      "appid": 271590,
+      "name": "Grand Theft Auto V Legacy",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+      "playtime2weeksMinutes": 33,
+      "playtimeForeverMinutes": 12381
+    },
+    {
+      "appid": 1062090,
+      "name": "Timberborn",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/1062090/header.jpg",
+      "playtime2weeksMinutes": 29,
+      "playtimeForeverMinutes": 674
     }
   ]
 }
