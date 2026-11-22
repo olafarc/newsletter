@@ -1,20 +1,20 @@
 {
-  "updatedAt": "2026-11-22T01:27:00.504Z",
+  "updatedAt": "2026-11-22T08:24:44.097Z",
   "currentlyPlaying": null,
   "lastPlayed": {
     "appid": 489830,
     "name": "The Elder Scrolls V: Skyrim Special Edition",
     "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
-    "playtime2weeksMinutes": 1464,
-    "playtimeForeverMinutes": 5376
+    "playtime2weeksMinutes": 1653,
+    "playtimeForeverMinutes": 5565
   },
   "recent": [
     {
       "appid": 489830,
       "name": "The Elder Scrolls V: Skyrim Special Edition",
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
-      "playtime2weeksMinutes": 1464,
-      "playtimeForeverMinutes": 5376
+      "playtime2weeksMinutes": 1653,
+      "playtimeForeverMinutes": 5565
     },
     {
       "appid": 271590,
