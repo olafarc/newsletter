@@ -1,6 +1,12 @@
 {
-  "updatedAt": "2026-11-27T21:43:51.473Z",
-  "currentlyPlaying": null,
+  "updatedAt": "2026-11-28T03:37:44.487Z",
+  "currentlyPlaying": {
+    "appid": 813780,
+    "name": "Age of Empires II: Definitive Edition",
+    "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/813780/header.jpg",
+    "playtime2weeksMinutes": 210,
+    "playtimeForeverMinutes": 1991
+  },
   "lastPlayed": {
     "appid": 489830,
     "name": "The Elder Scrolls V: Skyrim Special Edition",
@@ -15,6 +21,13 @@
       "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/header.jpg",
       "playtime2weeksMinutes": 1790,
       "playtimeForeverMinutes": 5751
+    },
+    {
+      "appid": 813780,
+      "name": "Age of Empires II: Definitive Edition",
+      "header": "https://cdn.cloudflare.steamstatic.com/steam/apps/813780/header.jpg",
+      "playtime2weeksMinutes": 210,
+      "playtimeForeverMinutes": 1991
     },
     {
       "appid": 271590,
